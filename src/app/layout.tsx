@@ -1,37 +1,44 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor";
+import GrainOverlay from "@/components/GrainOverlay";
+import LiquidProgress from "@/components/ui/LiquidProgress";
+import Preloader from "@/components/Preloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
-  authors: [{ name: "Z.ai Team" }],
+  title: "PERFECTION BY BACHIR — Luxury Car Renovation | Dakar",
+  description:
+    "Atelier de rénovation automobile haut de gamme à Dakar, Sénégal. Detailing, ceramic coating, restauration cuir, polish carrosserie.",
+  keywords: [
+    "rénovation automobile Dakar",
+    "detailing Dakar",
+    "ceramic coating Sénégal",
+    "lavage premium Dakar",
+    "perfection bachir",
+  ],
+  authors: [{ name: "Perfection by Bachir" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
-    url: "https://chat.z.ai",
-    siteName: "Z.ai",
+    title: "PERFECTION BY BACHIR",
+    description: "Luxury Car Renovation — Dakar, Sénégal",
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
   },
 };
 
@@ -41,12 +48,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="fr" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${syne.variable} font-sans antialiased bg-bachir-black text-bachir-white cursor-none`}
       >
+        <Preloader />
+        <SmoothScroll />
+        <CustomCursor />
+        <GrainOverlay />
+        <LiquidProgress />
         {children}
-        <Toaster />
       </body>
     </html>
   );
