@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -35,6 +35,14 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
+function useMounted() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return mounted;
+}
+
 export function HeroScrub({
   frameCount,
   frameUrl,
@@ -60,10 +68,11 @@ export function HeroScrub({
   const [framesOk, setFramesOk] = useState(true);
   const [aspect, setAspect] = useState<number>(defaultAspect);
   const reduced = usePrefersReducedMotion();
+  const mounted = useMounted();
 
   // Progressive frame preloading
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !mounted) return;
     let cancelled = false;
     let errored = 0;
     const images: HTMLImageElement[] = new Array(frameCount);
@@ -123,11 +132,11 @@ export function HeroScrub({
       if (timer) clearTimeout(timer);
       window.clearTimeout(fallbackTimer);
     };
-  }, [reduced, frameCount, frameUrl]);
+  }, [reduced, mounted, frameCount, frameUrl]);
 
   // Entry animation
   useEffect(() => {
-    if (reduced) return;
+    if (reduced || !mounted) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: ENTRY_DELAY });
       tl.from(bgRef.current, { opacity: 0, duration: 1.4, ease: "power2.out" });
@@ -139,11 +148,11 @@ export function HeroScrub({
       }
     }, sectionRef);
     return () => ctx.revert();
-  }, [reduced]);
+  }, [reduced, mounted]);
 
   // Scroll-driven choreography — uses sticky layout instead of ScrollTrigger pin
   useEffect(() => {
-    if (reduced || !ready || !framesOk) return;
+    if (reduced || !mounted || !ready || !framesOk) return;
     const section = sectionRef.current;
     if (!section) return;
 
@@ -245,10 +254,15 @@ export function HeroScrub({
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [ready, framesOk, reduced, aspect, frameCount]);
+  }, [ready, framesOk, reduced, mounted, aspect, frameCount]);
 
   // Tall section + inner sticky div = same visual as ScrollTrigger pin, without needing pin
   const tallHeight = `${(PIN_VH_MULTIPLE + 1) * 100}vh`;
+
+  // Stable DOM structure: always render canvas and all elements, use CSS visibility/opacity
+  // to avoid hydration mismatches from conditional rendering
+  const showLoading = mounted && !ready && framesOk;
+  const showCanvas = mounted && framesOk;
 
   return (
     <section
@@ -298,7 +312,7 @@ export function HeroScrub({
             <span className="text-white">{titleTop}</span>
           </h2>
 
-          {/* Card with canvas */}
+          {/* Card with canvas — always rendered, visibility controlled by CSS */}
           <div
             ref={cardRef}
             className="relative overflow-hidden rounded-[12px] shadow-[0_20px_80px_rgba(0,0,0,0.55)] ring-1 ring-white/10 will-change-transform md:rounded-[16px]"
@@ -316,23 +330,28 @@ export function HeroScrub({
               boxShadow: "inset 0 0 30px rgba(200,169,107,0.1), 0 0 40px rgba(200,169,107,0.05)",
             }} />
 
-            {framesOk && (
-              <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full object-cover" />
-            )}
+            {/* Canvas — always in DOM, hidden until mounted + framesOk */}
+            <canvas
+              ref={canvasRef}
+              aria-hidden
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ visibility: showCanvas ? "visible" : "hidden" }}
+            />
 
-            {/* Loading state */}
-            {!ready && framesOk && (
-              <div className="absolute inset-0 flex items-center justify-center bg-bachir-black z-30">
-                <div className="text-center">
-                  <p className="text-bachir-gold text-[10px] tracking-[0.4em] uppercase mb-3">
-                    Loading Experience
-                  </p>
-                  <div className="w-32 h-px bg-bachir-gray-700 relative overflow-hidden">
-                    <div className="absolute left-0 top-0 h-full bg-bachir-gold animate-pulse" style={{ width: "60%" }} />
-                  </div>
+            {/* Loading overlay — always in DOM, hidden when ready */}
+            <div
+              className="absolute inset-0 flex items-center justify-center bg-bachir-black z-30 transition-opacity duration-500"
+              style={{ opacity: showLoading ? 1 : 0, pointerEvents: showLoading ? "auto" : "none" }}
+            >
+              <div className="text-center">
+                <p className="text-bachir-gold text-[10px] tracking-[0.4em] uppercase mb-3">
+                  Loading Experience
+                </p>
+                <div className="w-32 h-px bg-bachir-gray-700 relative overflow-hidden">
+                  <div className="absolute left-0 top-0 h-full bg-bachir-gold animate-pulse" style={{ width: "60%" }} />
                 </div>
               </div>
-            )}
+            </div>
           </div>
 
           {/* Bottom title */}
@@ -349,15 +368,14 @@ export function HeroScrub({
             <span className="text-bachir-gold text-gold-glow">{titleBottom}</span>
           </h2>
 
-          {/* Subtitle below titles */}
-          {subtitle && (
-            <p
-              ref={subtitleRef}
-              className="text-white/40 text-sm md:text-base font-light tracking-wider mt-2"
-            >
-              {subtitle}
-            </p>
-          )}
+          {/* Subtitle — always rendered, hidden via opacity when not provided */}
+          <p
+            ref={subtitleRef}
+            className="text-white/40 text-sm md:text-base font-light tracking-wider mt-2 transition-opacity duration-300"
+            style={{ opacity: subtitle ? 1 : 0 }}
+          >
+            {subtitle || ""}
+          </p>
         </div>
 
         {/* Scroll indicator */}
