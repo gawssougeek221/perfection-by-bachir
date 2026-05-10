@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 
 // Dynamic imports to avoid SSR memory issues - all sections are client-only
 const Navbar = dynamic(() => import('@/components/Navbar'), { ssr: false });
-const HeroScrub = dynamic(() => import('@/components/HeroScrub'), { ssr: false });
+const HeroScrub = dynamic(() => import('@/components/ui/hero-scrub').then(m => ({ default: m.HeroScrub })), { ssr: false });
 const MorphEffects = dynamic(() => import('@/components/MorphEffects'), { ssr: false });
 const ScrubTransition = dynamic(() => import('@/components/ui/ScrubTransition'), { ssr: false });
 const ClipPathTransition = dynamic(() => import('@/components/ui/ClipPathTransition'), { ssr: false });
@@ -26,7 +26,14 @@ export default function Home() {
       <Navbar />
 
       {/* 01 — HERO: 171 frames cinematic scrub */}
-      <HeroScrub />
+      <HeroScrub
+        frameCount={171}
+        frameUrl={(i) => `/frames-webp/frame_${String(i + 1).padStart(4, '0')}.webp`}
+        titleTop="PERFECTION"
+        titleBottom="REBIRTH"
+        subtitle="L'art de la transformation automobile — Dakar"
+        accentHex="#C8A96B"
+      />
 
       {/* 02 — MORPH TEXT: REPAIR > RESTORE > TRANSFORM > REBIRTH */}
       <MorphEffects />

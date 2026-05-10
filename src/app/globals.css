@@ -54,6 +54,41 @@
   --color-bachir-gray-500: #999999;
   --color-bachir-gray-700: #444444;
   --color-bachir-gray-900: #111111;
+
+  /* HeroScrub Design Tokens */
+  --color-color-overlay: var(--color-overlay);
+  --color-color-border: var(--color-border);
+  --color-color-text-muted: var(--color-text-muted);
+  --color-color-text: var(--color-text);
+  --color-color-accent: var(--color-accent);
+  --color-color-secondary: var(--color-secondary);
+  --color-color-primary: var(--color-primary);
+  --font-serif: var(--font-serif);
+  --font-display: var(--font-display);
+  --font-primary: var(--font-primary);
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-mega: var(--text-mega);
+  --space-1: var(--space-1);
+  --space-2: var(--space-2);
+  --space-3: var(--space-3);
+  --space-4: var(--space-4);
+  --space-5: var(--space-5);
+  --space-6: var(--space-6);
+  --space-8: var(--space-8);
+  --space-10: var(--space-10);
+  --space-12: var(--space-12);
+  --panel-padding: var(--panel-padding);
+  --transition-fast: var(--transition-fast);
+  --transition-medium: var(--transition-medium);
+  --transition-slow: var(--transition-slow);
+  --ease-out-expo: var(--ease-out-expo);
+  --ease-out-back: var(--ease-out-back);
 }
 
 :root {
@@ -89,6 +124,41 @@
   --sidebar-accent-foreground: #0A0A0A;
   --sidebar-border: #E5E5E3;
   --sidebar-ring: #C8A96B;
+
+  /* HeroScrub Extended Tokens (mapped to BACHIR palette) */
+  --color-primary: #0a0a0a;
+  --color-secondary: #161616;
+  --color-accent: #C8A96B;
+  --color-text: #f5f5f5;
+  --color-text-muted: rgba(245, 245, 245, 0.7);
+  --color-border: rgba(255, 255, 255, 0.05);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --font-primary: "Inter", sans-serif;
+  --font-display: "Syne", sans-serif;
+  --font-serif: "EB Garamond", serif;
+  --text-xs: 0.7rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.2rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 3rem;
+  --text-mega: clamp(7rem, 15vw, 12rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+  --panel-padding: 5%;
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @layer base {
