@@ -77,11 +77,11 @@ export default function Footer() {
   return (
     <>
       {/* Spacer that triggers the reveal — white bg for seamless CTA→Footer flow */}
-      <div ref={spacerRef} className="h-[100vh] bg-bachir-white" />
+      <div ref={spacerRef} className="h-[100vh] bg-bachir-black" />
 
       <footer
         ref={footerRef}
-        className="fixed bottom-0 left-0 right-0 bg-bachir-white z-50 overflow-hidden"
+        className="fixed bottom-0 left-0 right-0 bg-bachir-black z-50 overflow-hidden"
         style={{ clipPath: 'inset(100% 0 0 0)' }}
       >
         {/* Giant BACHIR watermark */}
@@ -103,7 +103,7 @@ export default function Footer() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[40vh] rounded-full opacity-15"
           style={{
             background:
-              'radial-gradient(ellipse, rgba(200,169,107,0.3) 0%, transparent 70%)',
+              'radial-gradient(ellipse, rgba(200,169,107,0.15) 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -113,7 +113,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
             {/* Brand */}
             <div>
-              <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-bold tracking-tight text-bachir-gray-900 mb-4">
+              <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-bold tracking-tight text-bachir-white mb-4">
                 PERFECTION
                 <span className="text-bachir-gold text-sm ml-2 tracking-[0.3em] uppercase font-medium">
                   BY BACHIR
@@ -135,7 +135,7 @@ export default function Footer() {
                 {FOOTER_SERVICES.map((s) => (
                   <span
                     key={s}
-                    className="px-3 py-1 border border-bachir-gray-200 text-bachir-gray-700 text-xs hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300"
+                    className="px-3 py-1 border border-white/10 text-bachir-gray-500 text-xs hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300"
                   >
                     {s}
                   </span>
@@ -148,7 +148,7 @@ export default function Footer() {
               <h4 className="text-[10px] tracking-[0.3em] uppercase text-bachir-gold font-medium mb-4">
                 Contact
               </h4>
-              <div className="space-y-2 text-bachir-gray-700 text-sm">
+              <div className="space-y-2 text-bachir-gray-500 text-sm">
                 <p>+221 77 000 00 00</p>
                 <p>contact@perfectionbachir.com</p>
                 <p>Dakar, Sénégal</p>
@@ -156,19 +156,19 @@ export default function Footer() {
               <div className="flex gap-4 mt-4">
                 <a
                   href="#"
-                  className="w-8 h-8 border border-bachir-gray-200 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
                 >
                   IG
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 border border-bachir-gray-200 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
                 >
                   FB
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 border border-bachir-gray-200 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
                 >
                   TK
                 </a>
@@ -177,12 +177,12 @@ export default function Footer() {
           </div>
 
           {/* Marquee */}
-          <div className="mt-12 md:mt-16 overflow-hidden border-t border-bachir-gray-200 pt-6">
+          <div className="mt-12 md:mt-16 overflow-hidden border-t border-white/10 pt-6">
             <div className="footer-marquee flex whitespace-nowrap gap-8">
               {[...FOOTER_SERVICES, ...FOOTER_SERVICES].map((s, i) => (
                 <span
                   key={i}
-                  className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl font-bold text-bachir-gray-900/5 tracking-tight"
+                  className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl font-bold text-white/5 tracking-tight"
                 >
                   {s}
                 </span>
@@ -191,7 +191,7 @@ export default function Footer() {
           </div>
 
           {/* Bottom */}
-          <div className="mt-8 pt-6 border-t border-bachir-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="mt-8 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-bachir-gray-500 text-xs">
               © 2026 Perfection by Bachir. Tous droits réservés.
             </p>

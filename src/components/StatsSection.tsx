@@ -74,7 +74,7 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-bachir-white py-24 md:py-36 overflow-hidden">
+    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {STATS.map((stat, i) => (
@@ -85,7 +85,7 @@ export default function StatsSection() {
                     ref={(el) => {
                       if (el) counterRefs.current[i] = el;
                     }}
-                    className="font-[family-name:var(--font-syne)] text-5xl md:text-[6rem] font-extralight text-bachir-gray-900 leading-none tabular-nums"
+                    className="font-[family-name:var(--font-syne)] text-5xl md:text-[6rem] font-extralight text-bachir-white leading-none tabular-nums"
                   >
                     0
                   </span>

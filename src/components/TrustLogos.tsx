@@ -106,13 +106,13 @@ export default function TrustLogos() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-bachir-white py-24 md:py-32 overflow-hidden"
+      className="relative bg-bachir-black py-24 md:py-32 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <p className="trust-label text-bachir-gold text-[10px] md:text-xs tracking-[0.5em] uppercase font-medium text-center mb-4">
           Marques de Confiance
         </p>
-        <h2 className="trust-label font-[family-name:var(--font-syne)] text-bachir-gray-900 text-3xl md:text-5xl font-semibold tracking-tight text-center mb-16 md:mb-20">
+        <h2 className="trust-label font-[family-name:var(--font-syne)] text-bachir-white text-3xl md:text-5xl font-semibold tracking-tight text-center mb-16 md:mb-20">
           Ils Nous Font Confiance
         </h2>
 

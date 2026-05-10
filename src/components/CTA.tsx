@@ -54,7 +54,7 @@ export default function CTA() {
     <section
       id="cta"
       ref={sectionRef}
-      className="relative bg-bachir-white py-32 md:py-44 overflow-hidden"
+      className="relative bg-bachir-black py-32 md:py-44 overflow-hidden"
     >
       {/* Decorative vertical lines */}
       <div className="absolute inset-0 flex justify-between px-12 md:px-24 opacity-10">
@@ -73,7 +73,7 @@ export default function CTA() {
 
         <SplitText
           as="h2"
-          className="font-[family-name:var(--font-syne)] text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-bachir-gray-900 leading-[1.1]"
+          className="font-[family-name:var(--font-syne)] text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-bachir-white leading-[1.1]"
         >
           Votre voiture mérite le meilleur
         </SplitText>
@@ -100,7 +100,7 @@ export default function CTA() {
           <Magnetic strength={0.3}>
             <a
               href="tel:+221770000000"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gray-900 text-bachir-gray-900 text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gray-900 hover:text-bachir-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(10,10,10,0.2)]"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gold/40 text-bachir-gold text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(200,169,107,0.2)]"
             >
               +221 77 000 00 00
             </a>
