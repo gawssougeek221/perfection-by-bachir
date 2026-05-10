@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/ui/SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,12 +83,13 @@ export default function TrustLogos() {
         },
       });
 
-      // Logo grid — scrub-based parallax reveal, each logo at slightly different speed
+      // Logo grid — scrub-based parallax reveal
       gsap.utils.toArray<HTMLElement>('.trust-logo').forEach((logo, i) => {
-        const offset = i * 0.03; // stagger offset for parallax feel
+        const offset = i * 0.03;
         gsap.from(logo, {
           y: 60 + i * 10,
           opacity: 0,
+          scale: 0.9,
           scrollTrigger: {
             trigger: sectionRef.current,
             start: `top ${80 - i * 3}%`,
@@ -112,15 +114,20 @@ export default function TrustLogos() {
         <p className="trust-label text-white/40 text-[10px] md:text-xs tracking-[0.5em] uppercase font-medium text-center mb-4">
           Marques de Confiance
         </p>
-        <h2 className="trust-label font-[family-name:var(--font-syne)] text-bachir-white text-3xl md:text-5xl font-semibold tracking-tight text-center mb-16 md:mb-20">
+        <SplitText
+          as="h2"
+          className="trust-label font-[family-name:var(--font-syne)] text-bachir-white text-3xl md:text-5xl font-semibold tracking-tight text-center mb-16 md:mb-20"
+          scrub
+        >
           Ils Nous Font Confiance
-        </h2>
+        </SplitText>
 
         <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
           {logos.map((brand, i) => (
             <div
               key={brand.name}
               className="trust-logo group flex flex-col items-center gap-3 transition-all duration-500"
+              data-magnetic="0.2"
             >
               <div className="text-bachir-gray-300 group-hover:text-white/60 transition-colors duration-500 grayscale group-hover:grayscale-0">
                 {brand.svg}

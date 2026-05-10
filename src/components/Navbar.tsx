@@ -67,6 +67,7 @@ export default function Navbar() {
             handleNavClick('#hero');
           }}
           className="flex items-center gap-3 group"
+          data-magnetic="0.2"
         >
           <span className="font-[family-name:var(--font-syne)] text-lg md:text-xl font-bold tracking-tight text-bachir-white group-hover:text-white transition-colors duration-300">
             PERFECTION
@@ -87,6 +88,7 @@ export default function Navbar() {
                 handleNavClick(link.href);
               }}
               className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 hover:text-white transition-all duration-300"
+              data-magnetic="0.15"
             >
               {link.label}
             </a>
@@ -96,6 +98,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             className="ml-4 px-5 py-2 border border-bachir-gold/30 text-bachir-gold text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(184,134,11,0.3)]"
+            data-magnetic="0.3"
           >
             WhatsApp
           </a>
@@ -110,7 +113,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu — glassmorphism depth */}
+      {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden bg-bachir-black/70 border-t border-white/5" style={{
           backdropFilter: 'blur(30px) saturate(1.5)',

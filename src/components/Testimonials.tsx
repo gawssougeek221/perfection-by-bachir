@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/ui/SplitText';
+import TiltCard from '@/components/ui/TiltCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,7 +48,7 @@ export default function Testimonials() {
         },
       });
 
-      // Cards — scrub-based parallax reveal, each at different speed
+      // Cards — scrub-based parallax reveal
       gsap.utils.toArray<HTMLElement>('.testimonial-card').forEach((card, i) => {
         gsap.from(card, {
           y: 60 + i * 25,
@@ -73,44 +75,47 @@ export default function Testimonials() {
           <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
             Témoignages
           </p>
-          <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white">
+          <SplitText
+            as="h2"
+            className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white"
+            scrub
+          >
             Ce Que Disent Nos Clients
-          </h2>
+          </SplitText>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {TESTIMONIALS.map((t, i) => (
-            <div
-              key={i}
-              className="testimonial-card group p-8 border border-white/5 hover:border-white/15 transition-all duration-500"
-            >
-              {/* Stars */}
-              <div className="flex gap-1 mb-6">
-                {[...Array(t.rating)].map((_, j) => (
-                  <svg
-                    key={j}
-                    className="w-4 h-4 text-bachir-gold"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
+            <TiltCard key={i} tiltStrength={6}>
+              <div className="testimonial-card group p-8 border border-white/5 hover:border-white/15 transition-all duration-500 h-full">
+                {/* Stars */}
+                <div className="flex gap-1 mb-6">
+                  {[...Array(t.rating)].map((_, j) => (
+                    <svg
+                      key={j}
+                      className="w-4 h-4 text-white/30 group-hover:text-bachir-gold transition-colors duration-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
 
-              {/* Quote */}
-              <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6 group-hover:text-bachir-gray-300 transition-colors duration-500">
-                &ldquo;{t.text}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div>
-                <p className="text-bachir-white text-sm font-medium">{t.name}</p>
-                <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mt-1">
-                  {t.car}
+                {/* Quote */}
+                <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6 group-hover:text-bachir-gray-300 transition-colors duration-500">
+                  &ldquo;{t.text}&rdquo;
                 </p>
+
+                {/* Author */}
+                <div>
+                  <p className="text-bachir-white text-sm font-medium">{t.name}</p>
+                  <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mt-1">
+                    {t.car}
+                  </p>
+                </div>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>

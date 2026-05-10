@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/ui/SplitText';
+import TiltCard from '@/components/ui/TiltCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +59,7 @@ export default function Gallery() {
         });
       }
 
-      // Horizontal scroll — keep the existing pinned behavior
+      // Horizontal scroll — pinned with scrub
       const track = trackRef.current;
       const totalWidth = track.scrollWidth - window.innerWidth;
 
@@ -73,20 +75,39 @@ export default function Gallery() {
         },
       });
 
-      // Gallery cards — subtle scale/y parallax during horizontal scroll
+      // Gallery cards — scale + opacity parallax during horizontal scroll
       gsap.utils.toArray<HTMLElement>('.gallery-card').forEach((card, i) => {
         gsap.from(card, {
-          scale: 0.92,
-          opacity: 0.7,
+          scale: 0.85,
+          opacity: 0.5,
           duration: 0.5,
           scrollTrigger: {
             trigger: card,
-            start: 'left 85%',
-            end: 'left 50%',
+            start: 'left 90%',
+            end: 'left 40%',
             scrub: 1,
             containerAnimation: horizontalTween,
           },
         });
+
+        // Parallax on images within cards — subtle vertical shift
+        const img = card.querySelector('.gallery-img') as HTMLElement;
+        if (img) {
+          gsap.fromTo(img,
+            { y: -20 },
+            {
+              y: 20,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: card,
+                start: 'left right',
+                end: 'right left',
+                scrub: 1,
+                containerAnimation: horizontalTween,
+              },
+            }
+          );
+        }
       });
     }, sectionRef);
 
@@ -101,26 +122,25 @@ export default function Gallery() {
         <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
           Galerie
         </p>
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white">
+        <SplitText
+          as="h2"
+          className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white"
+        >
           Nos Réalisations
-        </h2>
+        </SplitText>
       </div>
 
       <div ref={trackRef} className="flex gap-6 md:gap-8 pl-6 md:pl-12 pb-16">
         {GALLERY_ITEMS.map((item, i) => (
-          <div
-            key={i}
-            className="gallery-card group relative flex-shrink-0 w-[75vw] md:w-[40vw] aspect-[4/3] overflow-hidden"
-            style={{
-              perspective: '800px',
-            }}
-          >
-            {/* Car image */}
-            <img
-              src={item.image}
-              alt={item.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+          <TiltCard key={i} tiltStrength={6} className="gallery-card group relative flex-shrink-0 w-[75vw] md:w-[40vw] aspect-[4/3] overflow-hidden">
+            {/* Car image with parallax container */}
+            <div className="absolute inset-[-5%] w-[110%] h-[110%]">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="gallery-img absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            </div>
 
             {/* Dark overlay for text readability */}
             <div className="absolute inset-0 bg-bachir-black/40 group-hover:bg-bachir-black/20 transition-colors duration-500" />
@@ -136,8 +156,6 @@ export default function Gallery() {
               }}
             />
 
-
-
             {/* Info overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-bachir-black/80 via-bachir-black/30 to-transparent">
               <p className="text-white/50 text-[9px] tracking-[0.4em] uppercase font-medium mb-2">
@@ -147,9 +165,7 @@ export default function Gallery() {
                 {item.title}
               </h3>
             </div>
-
-
-          </div>
+          </TiltCard>
         ))}
       </div>
 

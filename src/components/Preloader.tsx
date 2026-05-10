@@ -54,7 +54,7 @@ export default function Preloader() {
     >
       <div className="text-center">
         <div className="relative mb-8">
-          <h1 className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl font-bold tracking-tight text-bachir-gold">
+          <h1 className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl font-bold tracking-tight text-bachir-white">
             PERFECTION
           </h1>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
@@ -66,11 +66,11 @@ export default function Preloader() {
           <div className="h-px w-12 bg-white/15" />
           <span
             ref={counterRef}
-            className="font-[family-name:var(--font-syne)] text-2xl font-light text-bachir-gold tabular-nums"
+            className="font-[family-name:var(--font-syne)] text-2xl font-light text-bachir-white tabular-nums"
           >
             0
           </span>
-          <span className="text-bachir-gold/50 text-sm">%</span>
+          <span className="text-white/30 text-sm">%</span>
           <div className="h-px w-12 bg-white/15" />
         </div>
       </div>

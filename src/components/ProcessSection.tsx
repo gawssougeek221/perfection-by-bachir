@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/ui/SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,7 +34,7 @@ export default function ProcessSection() {
         },
       });
 
-      // Steps — scrub-based parallax reveal, each at different speed
+      // Steps — scrub-based parallax reveal with stagger
       gsap.utils.toArray<HTMLElement>('.process-step').forEach((step, i) => {
         gsap.from(step, {
           y: 60 + i * 20,
@@ -47,7 +48,7 @@ export default function ProcessSection() {
         });
       });
 
-      // Step numbers — individual parallax movement
+      // Step numbers — individual parallax
       gsap.utils.toArray<HTMLElement>('.step-number').forEach((num, i) => {
         gsap.from(num, {
           y: 40,
@@ -61,7 +62,7 @@ export default function ProcessSection() {
         });
       });
 
-      // Vertical gold line — grow with scrub (keep existing behavior)
+      // Vertical gold line — grow with scrub
       if (lineRef.current) {
         gsap.to(lineRef.current, {
           scaleY: 1,
@@ -88,9 +89,13 @@ export default function ProcessSection() {
           <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
             Notre Processus
           </p>
-          <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-16 md:mb-24">
+          <SplitText
+            as="h2"
+            className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-16 md:mb-24"
+            scrub
+          >
             De la Vision à la Perfection
-          </h2>
+          </SplitText>
         </div>
 
         <div className="relative">
@@ -112,7 +117,7 @@ export default function ProcessSection() {
                 }`}
               >
                 {/* Step dot */}
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-bachir-gold mt-2 gold-border-glow z-10" />
+                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-bachir-gold mt-2 z-10" style={{ boxShadow: '0 0 12px rgba(184,134,11,0.4)' }} />
 
                 {/* Content */}
                 <div className={`ml-12 md:ml-0 md:w-[45%] ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>

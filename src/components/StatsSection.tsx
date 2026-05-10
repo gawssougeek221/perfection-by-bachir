@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import OdometerCounter from '@/components/OdometerCounter';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,8 +16,6 @@ const STATS = [
 
 export default function StatsSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const counterRefs = useRef<HTMLSpanElement[]>([]);
-  const objRefs = useRef(STATS.map(() => ({ val: 0 })));
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -33,39 +32,6 @@ export default function StatsSection() {
           scrub: 1,
         },
       });
-
-      // Counter numbers with scrub-based reveal — each stat card at slightly different parallax speed
-      STATS.forEach((stat, i) => {
-        const cardEl = counterRefs.current[i]?.closest('.stat-card');
-        if (cardEl) {
-          gsap.from(cardEl, {
-            y: 40 + i * 15,
-            opacity: 0,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: `top ${85 - i * 5}%`,
-              end: `top ${40 - i * 5}%`,
-              scrub: 1 + i * 0.2,
-            },
-          });
-        }
-
-        gsap.to(objRefs.current[i], {
-          val: stat.target,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 90%',
-            end: 'top 30%',
-            scrub: 1.5,
-            onUpdate: () => {
-              if (counterRefs.current[i]) {
-                counterRefs.current[i].textContent = Math.round(objRefs.current[i].val).toString();
-              }
-            },
-          },
-        });
-      });
     }, sectionRef);
 
     return () => {
@@ -77,32 +43,16 @@ export default function StatsSection() {
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-          {STATS.map((stat, i) => (
-            <div key={stat.label} className="stat-card text-center relative">
-              <div className="py-4">
-                <div className="flex items-baseline justify-center gap-1">
-                  <span
-                    ref={(el) => {
-                      if (el) counterRefs.current[i] = el;
-                    }}
-                    className="font-[family-name:var(--font-syne)] text-5xl md:text-[6rem] font-extralight text-bachir-white leading-none tabular-nums"
-                  >
-                    0
-                  </span>
-                  <span className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl font-light text-white/50">
-                    {stat.suffix}
-                  </span>
-                </div>
-                <p className="mt-3 text-bachir-gray-500 text-xs md:text-sm tracking-wide">
-                  {stat.label}
-                </p>
-              </div>
-            </div>
+          {STATS.map((stat) => (
+            <OdometerCounter
+              key={stat.label}
+              target={stat.target}
+              suffix={stat.suffix}
+              label={stat.label}
+            />
           ))}
         </div>
       </div>
-
-
     </section>
   );
 }

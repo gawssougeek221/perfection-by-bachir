@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from '@/components/ui/SplitText';
+import TiltCard from '@/components/ui/TiltCard';
+import ScrollVelocityText from '@/components/ScrollVelocityText';
 import {
   Shield,
   Palette,
@@ -136,45 +138,44 @@ export default function Services() {
           {SERVICES.map((service) => {
             const Icon = service.icon;
             return (
-              <div
-                key={service.num}
-                className="service-card group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-700 bg-bachir-black"
-              >
-                {/* Image */}
-                <div className="relative h-48 md:h-56 overflow-hidden">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
+              <TiltCard key={service.num} tiltStrength={8} className="service-card">
+                <div className="group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-700 bg-bachir-black h-full">
+                  {/* Image */}
+                  <div className="relative h-48 md:h-56 overflow-hidden">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-bachir-black via-bachir-black/40 to-transparent" />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <Icon className="w-12 h-12 text-white/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-bachir-black via-bachir-black/40 to-transparent" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <Icon className="w-12 h-12 text-white/20" />
+                    </div>
                   </div>
-                </div>
 
-                {/* Content */}
-                <div className="relative p-6 md:p-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Icon className="w-4 h-4 text-white/30" />
-                    <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-medium">
-                      {service.subtitle}
+                  {/* Content */}
+                  <div className="relative p-6 md:p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Icon className="w-4 h-4 text-white/30" />
+                      <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-medium">
+                        {service.subtitle}
+                      </span>
+                    </div>
+                    <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mb-3 tracking-tight">
+                      <ScrollVelocityText baseSkew={3} baseScaleX={0.03}>
+                        {service.title}
+                      </ScrollVelocityText>
+                    </h3>
+                    <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6">
+                      {service.description}
+                    </p>
+                    <span className="text-white/60 text-xs tracking-[0.2em] uppercase font-medium group-hover:tracking-[0.3em] transition-all duration-300">
+                      En savoir plus →
                     </span>
                   </div>
-                  <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mb-3 tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6">
-                    {service.description}
-                  </p>
-                  <span className="text-white/60 text-xs tracking-[0.2em] uppercase font-medium group-hover:tracking-[0.3em] transition-all duration-300">
-                    En savoir plus →
-                  </span>
                 </div>
-
-
-              </div>
+              </TiltCard>
             );
           })}
         </div>

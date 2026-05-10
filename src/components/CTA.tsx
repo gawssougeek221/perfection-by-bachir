@@ -89,7 +89,7 @@ export default function CTA() {
               href="https://wa.me/221770000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#22C55E] text-white font-semibold text-sm tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)]"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#22C55E] text-white font-semibold text-sm tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] cursor-hover"
             >
               <Phone className="w-4 h-4" />
               WhatsApp
