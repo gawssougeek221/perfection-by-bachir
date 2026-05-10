@@ -21,11 +21,11 @@ export default function StatsSection() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Blur reveal for the entire section
+    // Reveal animation
     gsap.from(sectionRef.current, {
-      filter: 'blur(8px)',
-      opacity: 0.6,
-      duration: 1.2,
+      opacity: 0,
+      y: 30,
+      duration: 1,
       ease: 'power2.out',
       scrollTrigger: {
         trigger: sectionRef.current,

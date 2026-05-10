@@ -94,7 +94,7 @@ export default function Services() {
       gsap.from(card, {
         y: 80,
         opacity: 0,
-        filter: 'blur(6px)',
+        filter: 'blur(4px)',
         duration: 0.8,
         delay: i * 0.1,
         ease: 'power3.out',
@@ -143,12 +143,7 @@ export default function Services() {
             return (
               <div
                 key={service.num}
-                className="service-card group relative overflow-hidden border border-white/5 hover:border-bachir-gold/20 transition-all duration-700"
-                style={{
-                  backdropFilter: 'blur(12px)',
-                  background: 'rgba(10,10,10,0.6)',
-                  boxShadow: '0 4px 30px rgba(0,0,0,0.3)',
-                }}
+                className="service-card group relative overflow-hidden border border-white/5 hover:border-bachir-gold/20 transition-all duration-700 bg-bachir-black"
               >
                 {/* Image */}
                 <div className="relative h-48 md:h-56 overflow-hidden">

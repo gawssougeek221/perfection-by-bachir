@@ -11,12 +11,12 @@ const WORDS = ['RÉPARER', 'RESTAURER', 'TRANSFORMER', 'RENAÎTRE'];
 export default function MorphEffects() {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<HTMLDivElement[]>([]);
-  const bgDepthRef = useRef<HTMLDivElement>(null);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    ScrollTrigger.create({
+    const st = ScrollTrigger.create({
       trigger: sectionRef.current,
       start: 'top top',
       end: '+=300%',
@@ -30,21 +30,20 @@ export default function MorphEffects() {
         wordRefs.current.forEach((el, i) => {
           if (!el) return;
           if (i < wordIndex) {
-            // Past word — blur out + shrink (depth: receding)
-            gsap.set(el, { opacity: 0, scale: 0.7, y: 80, filter: 'blur(20px)' });
+            // Past word — subtle blur out + shrink
+            gsap.set(el, { opacity: 0, scale: 0.8, y: 80, filter: 'blur(8px)' });
           } else if (i === wordIndex) {
-            // Active word — sharp focus with progressive blur (depth: present)
-            const blur = wordProgress * 16;
-            const depthScale = 1 + wordProgress * 0.6;
+            // Active word — stays sharp, slight scale + subtle blur as it transitions out
+            const blur = wordProgress * 6;
             gsap.set(el, {
-              opacity: 1 - wordProgress * 0.4,
-              scale: depthScale,
+              opacity: 1,
+              scale: 1 + wordProgress * 0.4,
               y: 0,
               filter: `blur(${blur}px)`,
             });
           } else if (i === wordIndex + 1) {
-            // Next word — emerging from blur (depth: approaching)
-            const incomingBlur = (1 - wordProgress) * 12;
+            // Next word — emerging from subtle blur
+            const incomingBlur = (1 - wordProgress) * 6;
             gsap.set(el, {
               opacity: wordProgress,
               scale: 1.3 - wordProgress * 0.3,
@@ -52,21 +51,17 @@ export default function MorphEffects() {
               filter: `blur(${incomingBlur}px)`,
             });
           } else {
-            // Future words — deep blur (far depth)
-            gsap.set(el, { opacity: 0, scale: 1.3, y: 0, filter: 'blur(25px)' });
+            // Future words — hidden
+            gsap.set(el, { opacity: 0, scale: 1.3, y: 0, filter: 'blur(4px)' });
           }
         });
-
-        // Background depth blur — intensifies as words transition
-        if (bgDepthRef.current) {
-          const transitionIntensity = Math.sin(progress * Math.PI);
-          bgDepthRef.current.style.backdropFilter = `blur(${transitionIntensity * 2}px)`;
-        }
       },
     });
 
+    scrollTriggerRef.current = st;
+
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      st.kill();
     };
   }, []);
 
@@ -75,24 +70,8 @@ export default function MorphEffects() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-bachir-black"
     >
-      {/* Depth-of-field background layers */}
+      {/* Morphing blobs background */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Far layer — deep blur, slow parallax */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse at 30% 40%, rgba(200,169,107,0.04) 0%, transparent 50%)',
-            filter: 'blur(80px)',
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(ellipse at 70% 60%, rgba(200,169,107,0.03) 0%, transparent 50%)',
-            filter: 'blur(100px)',
-          }}
-        />
-        {/* Mid layer — medium blur, medium parallax */}
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
@@ -102,28 +81,17 @@ export default function MorphEffects() {
               height: `${200 + i * 80}px`,
               left: `${15 + i * 18}%`,
               top: `${20 + (i % 3) * 20}%`,
-              background: `radial-gradient(circle, rgba(200,169,107,0.1) 0%, transparent 70%)`,
+              background: `radial-gradient(circle, rgba(200,169,107,0.08) 0%, transparent 70%)`,
               filter: 'blur(40px)',
               animation: `blobFloat${i % 3} ${8 + i * 2}s ease-in-out infinite`,
             }}
           />
         ))}
-        {/* Near layer — subtle blur, fast parallax */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: 'radial-gradient(circle at 50% 50%, rgba(200,169,107,0.02) 0%, transparent 40%)',
-            filter: 'blur(20px)',
-          }}
-        />
       </div>
 
-      {/* Depth blur overlay */}
-      <div ref={bgDepthRef} className="absolute inset-0 z-[2] pointer-events-none" />
-
-      {/* Depth vignette — simulates camera DOF */}
+      {/* Vignette — depth effect */}
       <div className="absolute inset-0 z-[3] pointer-events-none" style={{
-        background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.5) 80%, rgba(0,0,0,0.8) 100%)',
+        background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%)',
       }} />
 
       {/* Words */}
@@ -137,12 +105,11 @@ export default function MorphEffects() {
             className="absolute font-[family-name:var(--font-syne)] text-[10vw] md:text-[10rem] font-bold tracking-tighter leading-none will-change-transform"
             style={{
               opacity: i === 0 ? 1 : 0,
-              filter: i === 0 ? 'blur(0px)' : 'blur(25px)',
               color: i === WORDS.length - 1 ? '#C8A96B' : '#FFFFFF',
               textShadow:
                 i === WORDS.length - 1
                   ? '0 0 60px rgba(200,169,107,0.5), 0 0 120px rgba(200,169,107,0.2)'
-                  : '0 0 40px rgba(255,255,255,0.1)',
+                  : '0 0 30px rgba(255,255,255,0.05)',
             }}
           >
             {word}

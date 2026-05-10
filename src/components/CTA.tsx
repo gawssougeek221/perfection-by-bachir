@@ -15,12 +15,11 @@ export default function CTA() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Blur reveal for CTA
+    // Reveal animation for CTA
     gsap.from(sectionRef.current.querySelector('.cta-content'), {
       y: 40,
       opacity: 0,
-      filter: 'blur(10px)',
-      duration: 1.2,
+      duration: 1,
       ease: 'power3.out',
       scrollTrigger: {
         trigger: sectionRef.current,

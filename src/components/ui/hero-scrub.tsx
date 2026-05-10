@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -43,77 +43,6 @@ function useMounted() {
   return mounted;
 }
 
-// Bokeh depth-of-field particles
-function BokehParticles() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    const particles: { x: number; y: number; r: number; speed: number; opacity: number; hue: number }[] = [];
-
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    // Create bokeh particles
-    for (let i = 0; i < 25; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 4 + 2,
-        speed: Math.random() * 0.3 + 0.05,
-        opacity: Math.random() * 0.15 + 0.03,
-        hue: Math.random() > 0.5 ? 38 : 45, // gold hues
-      });
-    }
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of particles) {
-        p.y -= p.speed;
-        p.x += Math.sin(p.y * 0.005) * 0.3;
-        if (p.y < -20) {
-          p.y = canvas.height + 20;
-          p.x = Math.random() * canvas.width;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 60%, 65%, ${p.opacity})`;
-        ctx.fill();
-        // Soft glow around bokeh
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${p.hue}, 60%, 65%, ${p.opacity * 0.3})`;
-        ctx.fill();
-      }
-      animId = requestAnimationFrame(animate);
-    };
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden
-      className="pointer-events-none absolute inset-0 z-[5] opacity-0 transition-opacity duration-[2s]"
-      style={{ filter: "blur(1px)" }}
-    />
-  );
-}
-
 export function HeroScrub({
   frameCount,
   frameUrl,
@@ -134,8 +63,6 @@ export function HeroScrub({
   const titleTopRef = useRef<HTMLHeadingElement>(null);
   const titleBottomRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const bokehRef = useRef<HTMLCanvasElement>(null);
-  const depthBlurRef = useRef<HTMLDivElement>(null);
 
   const [ready, setReady] = useState(false);
   const [framesOk, setFramesOk] = useState(true);
@@ -163,10 +90,6 @@ export function HeroScrub({
         setAspect(img.naturalWidth / img.naturalHeight);
       }
       setReady(true);
-      // Fade in bokeh particles
-      if (bokehRef.current) {
-        gsap.to(bokehRef.current, { opacity: 1, duration: 2, delay: 0.5 });
-      }
     };
 
     const onErr = () => {
@@ -218,16 +141,16 @@ export function HeroScrub({
       const tl = gsap.timeline({ delay: ENTRY_DELAY });
       tl.from(bgRef.current, { opacity: 0, duration: 1.4, ease: "power2.out" });
       tl.from(cardRef.current, { opacity: 0, scale: 0.9, duration: 1.1, ease: "power3.out" }, 0.35);
-      tl.from(titleTopRef.current, { opacity: 0, y: 30, filter: "blur(8px)", duration: 1, ease: "expo.out" }, 0.5);
-      tl.from(titleBottomRef.current, { opacity: 0, y: -30, filter: "blur(8px)", duration: 1, ease: "expo.out" }, 0.62);
+      tl.from(titleTopRef.current, { opacity: 0, y: 30, duration: 1, ease: "expo.out" }, 0.5);
+      tl.from(titleBottomRef.current, { opacity: 0, y: -30, duration: 1, ease: "expo.out" }, 0.62);
       if (subtitleRef.current) {
-        tl.from(subtitleRef.current, { opacity: 0, y: 20, filter: "blur(4px)", duration: 0.8, ease: "expo.out" }, 0.75);
+        tl.from(subtitleRef.current, { opacity: 0, y: 20, duration: 0.8, ease: "expo.out" }, 0.75);
       }
     }, sectionRef);
     return () => ctx.revert();
   }, [reduced, mounted]);
 
-  // Scroll-driven choreography with depth-of-field blur
+  // Scroll-driven choreography
   useEffect(() => {
     if (reduced || !mounted || !ready || !framesOk) return;
     const section = sectionRef.current;
@@ -290,50 +213,42 @@ export function HeroScrub({
         },
       });
 
-      // Phase 1: Scale up card + slide titles apart with depth blur (0 → 0.15)
+      // Phase 1: Scale up card + slide titles apart (0 → 0.15)
       master.to(cardRef.current, { scale: 1, ease: "power2.out", duration: 0.15 }, 0);
       master.to(titleTopRef.current, {
         x: () => (window.innerWidth < 768 ? "-70vw" : "-60vw"),
         letterSpacing: "0.02em",
-        filter: "blur(12px)",
         ease: "power2.inOut",
         duration: 0.15,
       }, 0);
       master.to(titleBottomRef.current, {
         x: () => (window.innerWidth < 768 ? "70vw" : "60vw"),
         letterSpacing: "0.02em",
-        filter: "blur(12px)",
         ease: "power2.inOut",
         duration: 0.15,
       }, 0);
       if (subtitleRef.current) {
-        master.to(subtitleRef.current, { opacity: 0, y: -30, filter: "blur(6px)", ease: "power1.in", duration: 0.1 }, 0.05);
+        master.to(subtitleRef.current, { opacity: 0, y: -30, ease: "power1.in", duration: 0.1 }, 0.05);
       }
 
-      // Depth blur overlay - intensifies during immerse
-      if (depthBlurRef.current) {
-        master.to(depthBlurRef.current, { opacity: 0.6, duration: 0.15 }, 0);
-        master.to(depthBlurRef.current, { opacity: 0, duration: 0.22 }, 0.78);
-      }
-
-      // Phase 2: Immerse — card fills screen, titles fade out completely (0.15 → 0.78)
+      // Phase 2: Immerse — card fills screen, titles fade out (0.15 → 0.78)
       master.to(cardRef.current, { scale: immerseScale(), ease: "power2.in", duration: 0.63 }, 0.15);
       master.to(titleTopRef.current, { opacity: 0, ease: "power1.in", duration: 0.22 }, 0.15);
       master.to(titleBottomRef.current, { opacity: 0, ease: "power1.in", duration: 0.22 }, 0.15);
 
-      // Phase 3: Reset — card shrinks back, titles return with blur-to-sharp (0.78 → 1.0)
+      // Phase 3: Reset — card shrinks back, titles return (0.78 → 1.0)
       master.to(cardRef.current, { scale: startScale(), ease: "power3.inOut", duration: 0.22 }, 0.78);
       master.to(titleTopRef.current, {
-        x: 0, opacity: 1, letterSpacing: "-0.04em", filter: "blur(0px)",
+        x: 0, opacity: 1, letterSpacing: "-0.04em",
         ease: "power2.inOut", duration: 0.22,
       }, 0.78);
       master.to(titleBottomRef.current, {
-        x: 0, opacity: 1, letterSpacing: "-0.04em", filter: "blur(0px)",
+        x: 0, opacity: 1, letterSpacing: "-0.04em",
         ease: "power2.inOut", duration: 0.22,
       }, 0.78);
       if (subtitleRef.current) {
         master.to(subtitleRef.current, {
-          opacity: 1, y: 0, filter: "blur(0px)", ease: "power2.inOut", duration: 0.22,
+          opacity: 1, y: 0, ease: "power2.inOut", duration: 0.22,
         }, 0.82);
       }
 
@@ -343,9 +258,7 @@ export function HeroScrub({
     return () => ctx.revert();
   }, [ready, framesOk, reduced, mounted, aspect, frameCount]);
 
-  // Tall section + inner sticky div = same visual as ScrollTrigger pin, without needing pin
   const tallHeight = `${(PIN_VH_MULTIPLE + 1) * 100}vh`;
-
   const showLoading = mounted && !ready && framesOk;
   const showCanvas = mounted && framesOk;
 
@@ -367,12 +280,12 @@ export function HeroScrub({
         {/* Dark overlay for readability */}
         <div aria-hidden className="absolute inset-0 z-0 bg-black/30" />
 
-        {/* Radial light spot */}
+        {/* Radial gold light spot */}
         <div aria-hidden className="absolute inset-0 z-0" style={{
           background: "radial-gradient(ellipse at 50% 35%, rgba(200,169,107,0.06) 0%, rgba(0,0,0,0) 55%)",
         }} />
 
-        {/* Vignette */}
+        {/* Vignette — depth effect */}
         <div aria-hidden className="absolute inset-0 z-0" style={{
           background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%)",
         }} />
@@ -381,26 +294,6 @@ export function HeroScrub({
         <div aria-hidden className="absolute inset-0 z-0" style={{
           background: "linear-gradient(to top, rgba(200,169,107,0.08) 0%, transparent 40%)",
         }} />
-
-        {/* Depth-of-field blur overlay — simulates camera DOF during transitions */}
-        <div
-          ref={depthBlurRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-[3] opacity-0"
-          style={{
-            background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.7) 100%)",
-            backdropFilter: "blur(0.5px)",
-          }}
-        />
-
-        {/* Bokeh particles for depth illusion */}
-        <BokehParticles />
-        <canvas
-          ref={bokehRef}
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-[5] opacity-0 transition-opacity duration-[2s]"
-          style={{ filter: "blur(1px)" }}
-        />
 
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-3 md:gap-4">
           {/* Top title */}
@@ -417,7 +310,7 @@ export function HeroScrub({
             <span className="text-white">{titleTop}</span>
           </h2>
 
-          {/* Card with canvas — depth shadow + blur edges */}
+          {/* Card with canvas */}
           <div
             ref={cardRef}
             className="relative overflow-hidden rounded-[12px] will-change-transform md:rounded-[16px]"
@@ -428,25 +321,19 @@ export function HeroScrub({
               boxShadow: `
                 0 20px 80px rgba(0,0,0,0.55),
                 0 0 0 1px rgba(255,255,255,0.06),
-                0 0 120px rgba(200,169,107,0.08)
+                0 0 80px rgba(200,169,107,0.06)
               `,
             }}
           >
             {/* Inner shadow vignette on card */}
             <div aria-hidden className="pointer-events-none absolute inset-0 z-20 shadow-[inset_0_0_120px_rgba(0,0,0,0.45)]" />
 
-            {/* Depth blur edge — simulates shallow DOF on card borders */}
-            <div aria-hidden className="pointer-events-none absolute inset-0 z-[18]" style={{
-              boxShadow: "inset 0 0 80px 30px rgba(0,0,0,0.5)",
-              backdropFilter: "blur(0px)",
-            }} />
-
             {/* Gold border glow */}
             <div aria-hidden className="pointer-events-none absolute inset-0 z-20 rounded-[12px] md:rounded-[16px]" style={{
               boxShadow: "inset 0 0 30px rgba(200,169,107,0.1), 0 0 40px rgba(200,169,107,0.05)",
             }} />
 
-            {/* Canvas — always in DOM, hidden until mounted + framesOk */}
+            {/* Canvas */}
             <canvas
               ref={canvasRef}
               aria-hidden
@@ -454,7 +341,7 @@ export function HeroScrub({
               style={{ visibility: showCanvas ? "visible" : "hidden" }}
             />
 
-            {/* Loading overlay — always in DOM, hidden when ready */}
+            {/* Loading overlay */}
             <div
               className="absolute inset-0 flex items-center justify-center bg-bachir-black z-30 transition-opacity duration-500"
               style={{ opacity: showLoading ? 1 : 0, pointerEvents: showLoading ? "auto" : "none" }}
