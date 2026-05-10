@@ -65,42 +65,76 @@ const logos = [
 
 export default function TrustLogos() {
   const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    gsap.from('.trust-label', {
-      y: 20,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 85%',
-      },
-    });
-
-    gsap.utils.toArray<HTMLElement>('.trust-logo').forEach((logo, i) => {
-      gsap.from(logo, {
+    const ctx = gsap.context(() => {
+      // Label scrub-based parallax reveal
+      gsap.from('.trust-label', {
         y: 30,
         opacity: 0,
-        duration: 0.6,
-        delay: i * 0.08,
-        ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
+          start: 'top 85%',
+          end: 'top 45%',
+          scrub: 1,
         },
       });
-    });
+
+      // Logo grid — scrub-based parallax reveal, each logo at slightly different speed
+      gsap.utils.toArray<HTMLElement>('.trust-logo').forEach((logo, i) => {
+        const offset = i * 0.03; // stagger offset for parallax feel
+        gsap.from(logo, {
+          y: 60 + i * 10,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top ${80 - i * 3}%`,
+            end: `top ${35 - i * 3}%`,
+            scrub: 1 + offset,
+          },
+        });
+      });
+
+      // Background subtle parallax
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative bg-bachir-white py-24 md:py-32"
+      className="relative bg-bachir-white py-24 md:py-32 overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
+      {/* Subtle background decorative element with parallax */}
+      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[40vw] h-[40vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
+      </div>
+
+      {/* Gradient edge — smooth transition from MorphEffects (dark) to this (light) */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-bachir-black to-transparent z-20 pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <p className="trust-label text-bachir-gold text-[10px] md:text-xs tracking-[0.5em] uppercase font-medium text-center mb-4">
           Marques de Confiance
         </p>

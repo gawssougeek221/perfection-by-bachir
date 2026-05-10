@@ -29,32 +29,81 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    gsap.from('.testimonial-card', {
-      y: 60,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 0.8,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 75%',
-      },
-    });
+    const ctx = gsap.context(() => {
+      // Title reveal — scrub-based
+      gsap.from('.testimonials-title', {
+        y: 60,
+        opacity: 0,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          end: 'top 35%',
+          scrub: 1,
+        },
+      });
+
+      // Cards — scrub-based parallax reveal, each at different speed
+      gsap.utils.toArray<HTMLElement>('.testimonial-card').forEach((card, i) => {
+        gsap.from(card, {
+          y: 60 + i * 25,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top ${80 - i * 5}%`,
+            end: `top ${30 - i * 5}%`,
+            scrub: 1 + i * 0.2,
+          },
+        });
+      });
+
+      // Background subtle parallax movement
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          y: -50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
-          Témoignages
-        </p>
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white text-center mb-16">
-          Ce Que Disent Nos Clients
-        </h2>
+    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
+      {/* Background decorative element with parallax */}
+      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 right-0 w-[50vw] h-[50vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.03) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
+        <div className="absolute bottom-1/4 left-0 w-[30vw] h-[30vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.02) 0%, transparent 60%)',
+          filter: 'blur(60px)',
+        }} />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="testimonials-title text-center mb-16">
+          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+            Témoignages
+          </p>
+          <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white">
+            Ce Que Disent Nos Clients
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {TESTIMONIALS.map((t, i) => (

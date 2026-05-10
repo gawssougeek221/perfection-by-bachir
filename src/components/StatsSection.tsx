@@ -17,45 +17,81 @@ export default function StatsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const counterRefs = useRef<HTMLSpanElement[]>([]);
   const objRefs = useRef(STATS.map(() => ({ val: 0 })));
+  const bgOrbRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Reveal animation
-    gsap.from(sectionRef.current, {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 85%',
-      },
-    });
+    const ctx = gsap.context(() => {
+      // Background orb parallax — moves at 0.3x speed (very slow = far away)
+      if (bgOrbRef.current) {
+        gsap.to(bgOrbRef.current, {
+          y: -60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
 
-    STATS.forEach((stat, i) => {
-      gsap.to(objRefs.current[i], {
-        val: stat.target,
-        ease: 'none',
+      // Scrub-based reveal for the whole section
+      gsap.from(sectionRef.current, {
+        opacity: 0,
+        y: 30,
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 90%',
-          end: 'top 30%',
-          scrub: 1.5,
-          onUpdate: () => {
-            if (counterRefs.current[i]) {
-              counterRefs.current[i].textContent = Math.round(objRefs.current[i].val).toString();
-            }
-          },
+          end: 'top 50%',
+          scrub: 1,
         },
       });
-    });
+
+      // Counter numbers with scrub-based reveal — each stat card at slightly different parallax speed
+      STATS.forEach((stat, i) => {
+        const cardEl = counterRefs.current[i]?.closest('.stat-card');
+        if (cardEl) {
+          gsap.from(cardEl, {
+            y: 40 + i * 15,
+            opacity: 0,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: `top ${85 - i * 5}%`,
+              end: `top ${40 - i * 5}%`,
+              scrub: 1 + i * 0.2,
+            },
+          });
+        }
+
+        gsap.to(objRefs.current[i], {
+          val: stat.target,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 90%',
+            end: 'top 30%',
+            scrub: 1.5,
+            onUpdate: () => {
+              if (counterRefs.current[i]) {
+                counterRefs.current[i].textContent = Math.round(objRefs.current[i].val).toString();
+              }
+            },
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-white py-24 md:py-36 overflow-hidden">
-      {/* Depth blur orbs in background */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Depth blur orbs in background — parallax */}
+      <div ref={bgOrbRef} className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[50vh] rounded-full" style={{
           background: 'radial-gradient(ellipse, rgba(200,169,107,0.06) 0%, transparent 60%)',
           filter: 'blur(60px)',
@@ -65,7 +101,7 @@ export default function StatsSection() {
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {STATS.map((stat, i) => (
-            <div key={stat.label} className="text-center relative">
+            <div key={stat.label} className="stat-card text-center relative">
               {/* Depth shadow behind stat */}
               <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{
                 boxShadow: '0 8px 40px rgba(200,169,107,0.08)',
@@ -94,6 +130,9 @@ export default function StatsSection() {
           ))}
         </div>
       </div>
+
+      {/* Bottom gradient — smooth transition to AboutBachir (dark) */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bachir-black to-transparent z-20 pointer-events-none" />
     </section>
   );
 }

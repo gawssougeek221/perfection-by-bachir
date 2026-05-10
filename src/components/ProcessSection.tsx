@@ -16,45 +16,105 @@ const STEPS = [
 export default function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    gsap.from('.process-step', {
-      y: 40,
-      opacity: 0,
-      stagger: 0.15,
-      duration: 0.8,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 75%',
-      },
-    });
-
-    if (lineRef.current) {
-      gsap.to(lineRef.current, {
-        scaleY: 1,
-        ease: 'none',
+    const ctx = gsap.context(() => {
+      // Title reveal — scrub-based
+      gsap.from('.process-title', {
+        y: 60,
+        opacity: 0,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 60%',
-          end: 'bottom 40%',
+          start: 'top 85%',
+          end: 'top 40%',
           scrub: 1,
         },
       });
-    }
+
+      // Steps — scrub-based parallax reveal, each at different speed
+      gsap.utils.toArray<HTMLElement>('.process-step').forEach((step, i) => {
+        gsap.from(step, {
+          y: 60 + i * 20,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: step,
+            start: 'top 90%',
+            end: 'top 45%',
+            scrub: 1 + i * 0.2,
+          },
+        });
+      });
+
+      // Step numbers — individual parallax movement
+      gsap.utils.toArray<HTMLElement>('.step-number').forEach((num, i) => {
+        gsap.from(num, {
+          y: 40,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: num,
+            start: 'top 90%',
+            end: 'top 50%',
+            scrub: 1 + i * 0.3,
+          },
+        });
+      });
+
+      // Vertical gold line — grow with scrub (keep existing behavior)
+      if (lineRef.current) {
+        gsap.to(lineRef.current, {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 60%',
+            end: 'bottom 40%',
+            scrub: 1,
+          },
+        });
+      }
+
+      // Background subtle parallax
+      if (bgRef.current) {
+        gsap.to(bgRef.current, {
+          y: -60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36">
-      <div className="max-w-5xl mx-auto px-6 md:px-12">
-        <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
-          Notre Processus
-        </p>
-        <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white text-center mb-16 md:mb-24">
-          De la Vision à la Perfection
-        </h2>
+    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
+      {/* Subtle background with parallax */}
+      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[40vh] rounded-full" style={{
+          background: 'radial-gradient(ellipse, rgba(200,169,107,0.03) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
+      </div>
+
+      <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
+        <div className="process-title text-center">
+          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+            Notre Processus
+          </p>
+          <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-16 md:mb-24">
+            De la Vision à la Perfection
+          </h2>
+        </div>
 
         <div className="relative">
           {/* Vertical progress line */}
@@ -79,7 +139,7 @@ export default function ProcessSection() {
 
                 {/* Content */}
                 <div className={`ml-12 md:ml-0 md:w-[45%] ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <span className="font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-bachir-gold/20">
+                  <span className="step-number font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-bachir-gold/20">
                     {step.num}
                   </span>
                   <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-semibold text-bachir-white mt-2 tracking-tight">

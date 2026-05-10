@@ -74,36 +74,59 @@ const SERVICES = [
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
+  const orbRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    gsap.from('.services-title', {
-      y: 60,
-      opacity: 0,
-      filter: 'blur(8px)',
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 80%',
-      },
-    });
-
-    gsap.utils.toArray<HTMLElement>('.service-card').forEach((card, i) => {
-      gsap.from(card, {
+    const ctx = gsap.context(() => {
+      // Title — scrub-based parallax reveal
+      gsap.from('.services-title', {
         y: 80,
         opacity: 0,
-        filter: 'blur(4px)',
-        duration: 0.8,
-        delay: i * 0.1,
-        ease: 'power3.out',
+        filter: 'blur(8px)',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 70%',
+          start: 'top 85%',
+          end: 'top 35%',
+          scrub: 1,
         },
       });
-    });
+
+      // Service cards — scrub-based parallax reveal with staggered speeds
+      gsap.utils.toArray<HTMLElement>('.service-card').forEach((card, i) => {
+        gsap.from(card, {
+          y: 80 + i * 10,
+          opacity: 0,
+          filter: 'blur(4px)',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top ${80 - i * 4}%`,
+            end: `top ${30 - i * 3}%`,
+            scrub: 1 + i * 0.15,
+          },
+        });
+      });
+
+      // Background orbs parallax — move at 0.4x speed
+      orbRefs.current.forEach((orb, i) => {
+        if (!orb) return;
+        gsap.to(orb, {
+          y: i === 0 ? -80 : -60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -112,16 +135,24 @@ export default function Services() {
       ref={sectionRef}
       className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
     >
-      {/* Depth blur background orbs */}
+      {/* Depth blur background orbs — with parallax */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(200,169,107,0.05) 0%, transparent 70%)',
-          filter: 'blur(80px)',
-        }} />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-        }} />
+        <div
+          ref={(el) => { if (el) orbRefs.current[0] = el; }}
+          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(200,169,107,0.05) 0%, transparent 70%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        <div
+          ref={(el) => { if (el) orbRefs.current[1] = el; }}
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 70%)',
+            filter: 'blur(100px)',
+          }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">

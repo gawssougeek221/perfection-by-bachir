@@ -11,32 +11,60 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function CTA() {
   const sectionRef = useRef<HTMLElement>(null);
+  const orbRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Reveal animation for CTA
-    gsap.from(sectionRef.current.querySelector('.cta-content'), {
-      y: 40,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 75%',
-      },
-    });
+    const ctx = gsap.context(() => {
+      // CTA content — scrub-based parallax reveal
+      const ctaContent = sectionRef.current?.querySelector('.cta-content');
+      if (ctaContent) {
+        gsap.from(ctaContent, {
+          y: 80,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            end: 'top 30%',
+            scrub: 1,
+          },
+        });
+      }
 
-    gsap.from('.cta-line', {
-      scaleY: 0,
-      stagger: 0.1,
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top 75%',
-      },
-    });
+      // Decorative lines — scrub-based animation
+      gsap.utils.toArray<HTMLElement>('.cta-line').forEach((line, i) => {
+        gsap.from(line, {
+          scaleY: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: `top ${80 - i * 3}%`,
+            end: `top ${35 - i * 3}%`,
+            scrub: 1,
+          },
+        });
+      });
+
+      // Background orbs parallax
+      orbRefs.current.forEach((orb, i) => {
+        if (!orb) return;
+        gsap.to(orb, {
+          y: i === 0 ? -80 : -50,
+          x: i === 0 ? 20 : -20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        });
+      });
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -45,16 +73,27 @@ export default function CTA() {
       ref={sectionRef}
       className="relative bg-bachir-white py-32 md:py-44 overflow-hidden"
     >
-      {/* Depth blur layers */}
+      {/* Top gradient — smooth transition from Testimonials (dark) to this (light) */}
+      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-bachir-black to-transparent z-20 pointer-events-none" />
+
+      {/* Depth blur layers — with parallax */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/3 w-[50vw] h-[60vh] rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(200,169,107,0.06) 0%, transparent 60%)',
-          filter: 'blur(80px)',
-        }} />
-        <div className="absolute bottom-0 right-1/4 w-[40vw] h-[40vh] rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(10,10,10,0.04) 0%, transparent 60%)',
-          filter: 'blur(60px)',
-        }} />
+        <div
+          ref={(el) => { if (el) orbRefs.current[0] = el; }}
+          className="absolute top-0 left-1/3 w-[50vw] h-[60vh] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(200,169,107,0.06) 0%, transparent 60%)',
+            filter: 'blur(80px)',
+          }}
+        />
+        <div
+          ref={(el) => { if (el) orbRefs.current[1] = el; }}
+          className="absolute bottom-0 right-1/4 w-[40vw] h-[40vh] rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(10,10,10,0.04) 0%, transparent 60%)',
+            filter: 'blur(60px)',
+          }}
+        />
       </div>
 
       {/* Decorative vertical lines */}

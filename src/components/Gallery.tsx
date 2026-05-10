@@ -37,27 +37,71 @@ const GALLERY_ITEMS = [
 export default function Gallery() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current || !trackRef.current) return;
 
-    // Horizontal scroll
-    const track = trackRef.current;
-    const totalWidth = track.scrollWidth - window.innerWidth;
+    const ctx = gsap.context(() => {
+      // Header — parallax (moves slower)
+      if (headerRef.current) {
+        gsap.to(headerRef.current, {
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        });
 
-    gsap.to(track, {
-      x: -totalWidth,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: () => `+=${totalWidth}`,
-        pin: true,
-        scrub: 1,
-      },
-    });
+        // Header reveal
+        gsap.from(headerRef.current, {
+          y: 60,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            end: 'top 40%',
+            scrub: 1,
+          },
+        });
+      }
 
-    const ctx = gsap.context(() => {}, sectionRef);
+      // Horizontal scroll — keep the existing pinned behavior
+      const track = trackRef.current;
+      const totalWidth = track.scrollWidth - window.innerWidth;
+
+      const horizontalTween = gsap.to(track, {
+        x: -totalWidth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: () => `+=${totalWidth}`,
+          pin: true,
+          scrub: 1,
+        },
+      });
+
+      // Gallery cards — subtle scale/y parallax during horizontal scroll
+      gsap.utils.toArray<HTMLElement>('.gallery-card').forEach((card, i) => {
+        gsap.from(card, {
+          scale: 0.92,
+          opacity: 0.7,
+          duration: 0.5,
+          scrollTrigger: {
+            trigger: card,
+            start: 'left 85%',
+            end: 'left 50%',
+            scrub: 1,
+            containerAnimation: horizontalTween,
+          },
+        });
+      });
+    }, sectionRef);
+
     return () => {
       ctx.revert();
     };
@@ -65,7 +109,7 @@ export default function Gallery() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-black overflow-hidden">
-      <div className="py-16 md:py-24 px-6 md:px-12">
+      <div ref={headerRef} className="py-16 md:py-24 px-6 md:px-12">
         <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
           Galerie
         </p>
@@ -78,7 +122,7 @@ export default function Gallery() {
         {GALLERY_ITEMS.map((item, i) => (
           <div
             key={i}
-            className="group relative flex-shrink-0 w-[75vw] md:w-[40vw] aspect-[4/3] overflow-hidden"
+            className="gallery-card group relative flex-shrink-0 w-[75vw] md:w-[40vw] aspect-[4/3] overflow-hidden"
             style={{
               perspective: '800px',
             }}

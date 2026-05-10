@@ -11,57 +11,78 @@ const WORDS = ['RÉPARER', 'RESTAURER', 'TRANSFORMER', 'RENAÎTRE'];
 export default function MorphEffects() {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<HTMLDivElement[]>([]);
+  const blobRefs = useRef<HTMLDivElement[]>([]);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    const st = ScrollTrigger.create({
-      trigger: sectionRef.current,
-      start: 'top top',
-      end: '+=300%',
-      pin: true,
-      scrub: 1,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const wordIndex = Math.min(Math.floor(progress * WORDS.length), WORDS.length - 1);
-        const wordProgress = progress * WORDS.length - wordIndex;
+    const ctx = gsap.context(() => {
+      // Main pin + scrub morph
+      const st = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '+=300%',
+        pin: true,
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          const wordIndex = Math.min(Math.floor(progress * WORDS.length), WORDS.length - 1);
+          const wordProgress = progress * WORDS.length - wordIndex;
 
-        wordRefs.current.forEach((el, i) => {
-          if (!el) return;
-          if (i < wordIndex) {
-            // Past word — subtle blur out + shrink
-            gsap.set(el, { opacity: 0, scale: 0.8, y: 80, filter: 'blur(8px)' });
-          } else if (i === wordIndex) {
-            // Active word — stays sharp, slight scale + subtle blur as it transitions out
-            const blur = wordProgress * 6;
-            gsap.set(el, {
-              opacity: 1,
-              scale: 1 + wordProgress * 0.4,
-              y: 0,
-              filter: `blur(${blur}px)`,
-            });
-          } else if (i === wordIndex + 1) {
-            // Next word — emerging from subtle blur
-            const incomingBlur = (1 - wordProgress) * 6;
-            gsap.set(el, {
-              opacity: wordProgress,
-              scale: 1.3 - wordProgress * 0.3,
-              y: 0,
-              filter: `blur(${incomingBlur}px)`,
-            });
-          } else {
-            // Future words — hidden
-            gsap.set(el, { opacity: 0, scale: 1.3, y: 0, filter: 'blur(4px)' });
-          }
+          wordRefs.current.forEach((el, i) => {
+            if (!el) return;
+            if (i < wordIndex) {
+              // Past word — subtle blur out + shrink
+              gsap.set(el, { opacity: 0, scale: 0.8, y: 80, filter: 'blur(8px)' });
+            } else if (i === wordIndex) {
+              // Active word — stays sharp, slight scale + subtle blur as it transitions out
+              const blur = wordProgress * 6;
+              gsap.set(el, {
+                opacity: 1,
+                scale: 1 + wordProgress * 0.4,
+                y: 0,
+                filter: `blur(${blur}px)`,
+              });
+            } else if (i === wordIndex + 1) {
+              // Next word — emerging from subtle blur
+              const incomingBlur = (1 - wordProgress) * 6;
+              gsap.set(el, {
+                opacity: wordProgress,
+                scale: 1.3 - wordProgress * 0.3,
+                y: 0,
+                filter: `blur(${incomingBlur}px)`,
+              });
+            } else {
+              // Future words — hidden
+              gsap.set(el, { opacity: 0, scale: 1.3, y: 0, filter: 'blur(4px)' });
+            }
+          });
+        },
+      });
+
+      scrollTriggerRef.current = st;
+
+      // Parallax on blobs — each moves at different speed tied to scroll scrub
+      blobRefs.current.forEach((blob, i) => {
+        if (!blob) return;
+        const speeds = [-60, -80, -50, -70, -90];
+        gsap.to(blob, {
+          y: speeds[i % speeds.length],
+          x: (i % 2 === 0 ? 1 : -1) * (20 + i * 10),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
         });
-      },
-    });
-
-    scrollTriggerRef.current = st;
+      });
+    }, sectionRef);
 
     return () => {
-      st.kill();
+      ctx.revert();
     };
   }, []);
 
@@ -70,11 +91,14 @@ export default function MorphEffects() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-bachir-black"
     >
-      {/* Morphing blobs background */}
+      {/* Morphing blobs background — with parallax refs */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
+            ref={(el) => {
+              if (el) blobRefs.current[i] = el;
+            }}
             className="absolute rounded-full"
             style={{
               width: `${200 + i * 80}px`,
@@ -83,7 +107,6 @@ export default function MorphEffects() {
               top: `${20 + (i % 3) * 20}%`,
               background: `radial-gradient(circle, rgba(200,169,107,0.08) 0%, transparent 70%)`,
               filter: 'blur(40px)',
-              animation: `blobFloat${i % 3} ${8 + i * 2}s ease-in-out infinite`,
             }}
           />
         ))}
@@ -116,21 +139,6 @@ export default function MorphEffects() {
           </div>
         ))}
       </div>
-
-      <style jsx>{`
-        @keyframes blobFloat0 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(30px, -20px) scale(1.1); }
-        }
-        @keyframes blobFloat1 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(-20px, 30px) scale(0.9); }
-        }
-        @keyframes blobFloat2 {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(15px, 15px) scale(1.05); }
-        }
-      `}</style>
     </section>
   );
 }

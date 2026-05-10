@@ -11,25 +11,60 @@ export default function BeforeAfter() {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const [sliderPos, setSliderPos] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (!sectionRef.current || !containerRef.current) return;
 
-    gsap.fromTo(
-      containerRef.current,
-      { clipPath: 'polygon(0 100%, 0 100%, 0 100%, 0 100%)' },
-      {
-        clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
-        duration: 1.5,
-        ease: 'power4.inOut',
+    const ctx = gsap.context(() => {
+      // Header — scrub-based parallax reveal
+      if (headerRef.current) {
+        gsap.from(headerRef.current, {
+          y: 60,
+          opacity: 0,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            end: 'top 35%',
+            scrub: 1,
+          },
+        });
+      }
+
+      // ClipPath reveal — scrub-based instead of one-shot
+      gsap.fromTo(
+        containerRef.current,
+        { clipPath: 'polygon(0 100%, 0 100%, 0 100%, 0 100%)' },
+        {
+          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 70%',
+            end: 'top 20%',
+            scrub: 1,
+          },
+        }
+      );
+
+      // Parallax y-movement on the container
+      gsap.to(containerRef.current, {
+        y: -30,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 70%',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
         },
-      }
-    );
+      });
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   const handleMove = (clientX: number) => {
@@ -55,19 +90,21 @@ export default function BeforeAfter() {
       className="relative bg-bachir-black py-24 md:py-36"
     >
       <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
-          Réalisations
-        </p>
-        <SplitText
-          as="h2"
-          className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-bachir-white text-center mb-6"
-        >
-          Avant & Après
-        </SplitText>
-        <p className="text-bachir-gray-500 text-sm text-center mb-12 md:mb-16 max-w-xl mx-auto">
-          Glissez le curseur pour découvrir la transformation. Chaque véhicule
-          renaît sous nos mains.
-        </p>
+        <div ref={headerRef}>
+          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
+            Réalisations
+          </p>
+          <SplitText
+            as="h2"
+            className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-bachir-white text-center mb-6"
+          >
+            Avant & Après
+          </SplitText>
+          <p className="text-bachir-gray-500 text-sm text-center mb-12 md:mb-16 max-w-xl mx-auto">
+            Glissez le curseur pour découvrir la transformation. Chaque véhicule
+            renaît sous nos mains.
+          </p>
+        </div>
 
         <div ref={containerRef}>
           <div

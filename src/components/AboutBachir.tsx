@@ -16,46 +16,82 @@ export default function AboutBachir() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    if (imageRef.current) {
-      gsap.from(imageRef.current, {
-        clipPath: 'inset(100% 0 0 0)',
-        filter: 'blur(10px)',
-        duration: 1.2,
-        ease: 'power4.inOut',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-        },
-      });
-    }
+    const ctx = gsap.context(() => {
+      // Image — scrub-based clipPath reveal + parallax (moves slower = further away)
+      if (imageRef.current) {
+        gsap.from(imageRef.current, {
+          clipPath: 'inset(100% 0 0 0)',
+          filter: 'blur(10px)',
+          y: 60,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            end: 'top 25%',
+            scrub: 1,
+          },
+        });
 
-    if (textRef.current) {
-      gsap.from(textRef.current, {
-        y: 60,
-        opacity: 0,
-        filter: 'blur(6px)',
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 60%',
-        },
-      });
-    }
+        // Image parallax — moves slower relative to text
+        gsap.to(imageRef.current, {
+          y: -50,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        });
+      }
 
-    // Parallax depth on background
-    if (depthBgRef.current) {
-      gsap.to(depthBgRef.current, {
-        y: -80,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
-    }
+      // Text content — scrub-based reveal with staggered children
+      if (textRef.current) {
+        gsap.from(textRef.current, {
+          y: 80,
+          opacity: 0,
+          filter: 'blur(6px)',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 75%',
+            end: 'top 25%',
+            scrub: 1,
+          },
+        });
+
+        // Staggered reveal for text children
+        const textChildren = textRef.current.querySelectorAll('.about-text-reveal');
+        textChildren.forEach((child, i) => {
+          gsap.from(child, {
+            y: 40,
+            opacity: 0,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: `top ${65 - i * 8}%`,
+              end: `top ${25 - i * 5}%`,
+              scrub: 1 + i * 0.2,
+            },
+          });
+        });
+      }
+
+      // Parallax depth on background — enhanced movement range
+      if (depthBgRef.current) {
+        gsap.to(depthBgRef.current, {
+          y: -150,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => {
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -64,7 +100,10 @@ export default function AboutBachir() {
       ref={sectionRef}
       className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
     >
-      {/* Depth blur background */}
+      {/* Top gradient — smooth transition from StatsSection (light) to this (dark) */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-bachir-white to-transparent z-20 pointer-events-none" />
+
+      {/* Depth blur background — enhanced parallax */}
       <div ref={depthBgRef} className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[60vw] h-[60vh] rounded-full" style={{
           background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 60%)',
@@ -102,36 +141,36 @@ export default function AboutBachir() {
             }} />
           </div>
 
-          {/* Story — with blur reveal */}
+          {/* Story — with blur reveal and staggered parallax */}
           <div ref={textRef}>
-            <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+            <p className="about-text-reveal text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
               Notre Histoire
             </p>
             <SplitText
               as="h2"
-              className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-8"
+              className="about-text-reveal font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-8"
             >
               L&apos;Homme Derrière la Perfection
             </SplitText>
 
             <div className="space-y-5 text-bachir-gray-500 text-sm leading-relaxed">
-              <p>
+              <p className="about-text-reveal">
                 Bachir a consacré plus de 12 ans à maîtriser l&apos;art de la rénovation automobile.
                 Formé dans les meilleurs ateliers européens, il a ramené à Dakar un savoir-faire
                 unique, alliant techniques traditionnelles et technologies de pointe.
               </p>
-              <p>
+              <p className="about-text-reveal">
                 Chaque véhicule qui entre dans son atelier est traité avec la même exigence :
                 la perfection. Pas de compromis, pas de raccourci. Seul le résultat compte.
               </p>
-              <p>
+              <p className="about-text-reveal">
                 Sa philosophie est simple : une voiture n&apos;est pas seulement un moyen de transport.
                 C&apos;est une expression de soi, un investissement, un héritage. Et chaque détail
                 doit refléter cette vision.
               </p>
             </div>
 
-            <div className="mt-8 flex items-center gap-6">
+            <div className="about-text-reveal mt-8 flex items-center gap-6">
               <div className="h-px w-12 bg-bachir-gold/30" />
               <span className="text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium drop-shadow-[0_0_8px_rgba(200,169,107,0.2)]">
                 12+ ans d&apos;excellence
