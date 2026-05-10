@@ -6,12 +6,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WORDS = ['REPAIR', 'RESTORE', 'TRANSFORM', 'REBIRTH'];
+const WORDS = ['RÉPARER', 'RESTAURER', 'TRANSFORMER', 'RENAÎTRE'];
 
 export default function MorphEffects() {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<HTMLDivElement[]>([]);
-  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -54,10 +53,7 @@ export default function MorphEffects() {
           }
         });
 
-        // Progress bar
-        if (progressRef.current) {
-          progressRef.current.style.transform = `scaleX(${progress})`;
-        }
+
       },
     });
 
@@ -112,14 +108,7 @@ export default function MorphEffects() {
           </div>
         ))}
 
-        {/* Progress bar */}
-        <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 w-64 h-[2px] bg-white/10">
-          <div
-            ref={progressRef}
-            className="h-full bg-bachir-gold origin-left"
-            style={{ transform: 'scaleX(0)' }}
-          />
-        </div>
+
       </div>
 
       <style jsx>{`
