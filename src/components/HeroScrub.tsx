@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TOTAL_FRAMES = 171;
 const FRAME_PATH = '/frames-webp/frame_####.webp';
+const PRELOAD_BATCH = 10;
 
 function getFramePath(index: number): string {
   return FRAME_PATH.replace('####', String(index + 1).padStart(4, '0'));
@@ -18,68 +19,109 @@ export default function HeroScrub() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const objRef = useRef({ frame: 0 });
-  const framesRef = useRef<HTMLImageElement[]>([]);
+  const framesRef = useRef<Map<number, HTMLImageElement>>(new Map());
   const [loadProgress, setLoadProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const rafRef = useRef<number>(0);
+  const canvasCtxRef = useRef<CanvasRenderingContext2D | null>(null);
 
   // Draw current frame to canvas
   const drawFrame = useCallback((frameIndex: number) => {
     const canvas = canvasRef.current;
-    const img = framesRef.current[frameIndex];
+    const img = framesRef.current.get(frameIndex);
     if (!canvas || !img || !img.complete) return;
 
-    const ctx = canvas.getContext('2d');
+    let ctx = canvasCtxRef.current;
+    if (!ctx) {
+      ctx = canvas.getContext('2d', { willReadFrequently: false });
+      canvasCtxRef.current = ctx;
+    }
     if (!ctx) return;
 
-    // Use willReadFrequently for better perf
-    canvas.width = canvas.clientWidth * (window.devicePixelRatio > 1 ? 1.5 : 1);
-    canvas.height = canvas.clientHeight * (window.devicePixelRatio > 1 ? 1.5 : 1);
+    // Only resize canvas if dimensions changed
+    const dpr = Math.min(window.devicePixelRatio, 1.5);
+    const targetW = Math.round(canvas.clientWidth * dpr);
+    const targetH = Math.round(canvas.clientHeight * dpr);
+    if (canvas.width !== targetW || canvas.height !== targetH) {
+      canvas.width = targetW;
+      canvas.height = targetH;
+    }
 
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
   }, []);
 
-  // Preload all frames
+  // Progressive preload with batching
   useEffect(() => {
     let loaded = 0;
-    const images: HTMLImageElement[] = [];
+    let cancelled = false;
 
-    for (let i = 0; i < TOTAL_FRAMES; i++) {
+    const loadBatch = (startIdx: number) => {
+      if (cancelled) return;
+      const endIdx = Math.min(startIdx + PRELOAD_BATCH, TOTAL_FRAMES);
+
+      for (let i = startIdx; i < endIdx; i++) {
+        if (cancelled) break;
+        const img = new Image();
+        img.decoding = 'async';
+        img.loading = 'lazy';
+
+        const idx = i;
+        img.onload = () => {
+          loaded++;
+          const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
+          setLoadProgress(progress);
+          if (loaded === TOTAL_FRAMES && !cancelled) {
+            setIsReady(true);
+          }
+        };
+        img.onerror = () => {
+          loaded++;
+          setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
+        };
+        img.src = getFramePath(idx);
+        framesRef.current.set(idx, img);
+      }
+
+      // Load next batch after a delay to avoid memory spike
+      if (endIdx < TOTAL_FRAMES && !cancelled) {
+        setTimeout(() => loadBatch(endIdx), 50);
+      }
+    };
+
+    // Load first 3 frames eagerly, then batch the rest
+    for (let i = 0; i < 3 && i < TOTAL_FRAMES; i++) {
       const img = new Image();
-      img.src = getFramePath(i);
-      img.decoding = 'async';
-
+      img.decoding = 'sync';
+      const idx = i;
       img.onload = () => {
         loaded++;
         setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
-        if (loaded === TOTAL_FRAMES) {
-          setIsReady(true);
+        // Draw first frame immediately
+        if (idx === 0) {
+          requestAnimationFrame(() => drawFrame(0));
         }
+        if (loaded === TOTAL_FRAMES) setIsReady(true);
       };
-
       img.onerror = () => {
         loaded++;
         setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
       };
-
-      images[i] = img;
+      img.src = getFramePath(idx);
+      framesRef.current.set(idx, img);
     }
 
-    framesRef.current = images;
+    // Start batched loading after a short delay
+    setTimeout(() => loadBatch(3), 500);
 
     return () => {
-      images.forEach((img) => {
-        img.onload = null;
-        img.onerror = null;
-      });
+      cancelled = true;
     };
-  }, []);
+  }, [drawFrame]);
 
   // Setup GSAP ScrollTrigger once ready
   useEffect(() => {
     if (!isReady || !containerRef.current || !canvasRef.current) return;
 
-    // Draw first frame
     drawFrame(0);
 
     // Pin the section
@@ -138,7 +180,6 @@ export default function HeroScrub() {
       const idx = Math.round(objRef.current.frame);
       drawFrame(idx);
     };
-
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [drawFrame]);

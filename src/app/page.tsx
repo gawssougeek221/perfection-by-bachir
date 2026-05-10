@@ -1,26 +1,31 @@
-import HeroScrub from '@/components/HeroScrub';
-import MorphEffects from '@/components/MorphEffects';
-import ScrubTransition from '@/components/ui/ScrubTransition';
-import ClipPathTransition from '@/components/ui/ClipPathTransition';
-import TrustLogos from '@/components/TrustLogos';
-import StatsSection from '@/components/StatsSection';
-import AboutBachir from '@/components/AboutBachir';
-import Services from '@/components/Services';
-import ProcessSection from '@/components/ProcessSection';
-import BeforeAfter from '@/components/BeforeAfter';
-import Gallery from '@/components/Gallery';
-import Testimonials from '@/components/Testimonials';
-import CTA from '@/components/CTA';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import SenegalDivider from '@/components/SenegalDivider';
+'use client';
+
+import dynamic from 'next/dynamic';
+
+// Dynamic imports to avoid SSR memory issues - all sections are client-only
+const Navbar = dynamic(() => import('@/components/Navbar'), { ssr: false });
+const HeroScrub = dynamic(() => import('@/components/HeroScrub'), { ssr: false });
+const MorphEffects = dynamic(() => import('@/components/MorphEffects'), { ssr: false });
+const ScrubTransition = dynamic(() => import('@/components/ui/ScrubTransition'), { ssr: false });
+const ClipPathTransition = dynamic(() => import('@/components/ui/ClipPathTransition'), { ssr: false });
+const TrustLogos = dynamic(() => import('@/components/TrustLogos'), { ssr: false });
+const StatsSection = dynamic(() => import('@/components/StatsSection'), { ssr: false });
+const AboutBachir = dynamic(() => import('@/components/AboutBachir'), { ssr: false });
+const SenegalDivider = dynamic(() => import('@/components/SenegalDivider'), { ssr: false });
+const Services = dynamic(() => import('@/components/Services'), { ssr: false });
+const ProcessSection = dynamic(() => import('@/components/ProcessSection'), { ssr: false });
+const BeforeAfter = dynamic(() => import('@/components/BeforeAfter'), { ssr: false });
+const Gallery = dynamic(() => import('@/components/Gallery'), { ssr: false });
+const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: false });
+const CTA = dynamic(() => import('@/components/CTA'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 export default function Home() {
   return (
     <main className="relative">
       <Navbar />
 
-      {/* 01 — HERO: 86 frames cinematic scrub */}
+      {/* 01 — HERO: 171 frames cinematic scrub */}
       <HeroScrub />
 
       {/* 02 — MORPH TEXT: REPAIR > RESTORE > TRANSFORM > REBIRTH */}

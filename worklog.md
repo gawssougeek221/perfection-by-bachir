@@ -21,3 +21,28 @@ Stage Summary:
 - Frame 047 corruption fixed
 - Average WebP frame: 59KB (total 9.8MB)
 - Site running at http://127.0.0.1:3000/ - all frames 200 OK
+
+---
+Task ID: server-stability-fix
+Agent: Main Agent
+Task: Fix 502 Bad Gateway error on preview URL
+
+Work Log:
+- Diagnosed that the Next.js standalone server was getting OOM-killed
+- Root cause: Linux OOM killer targets processes with high OOM scores (~673)
+- Node.js processes have high VSZ (~1.5GB virtual memory) which drives OOM score up
+- The root Caddy proxy creates concurrent connections that spike memory pressure
+- Tried: Node.js standalone, dev mode, Python http.server, serve, custom static server
+- ALL backends get OOM-killed after several concurrent Caddy requests
+- Solution: Use Caddy as file_server (2MB RSS vs 84MB for Node.js) with auto-restart supervisor
+- Built Next.js with output:export for static HTML
+- Created serve-Caddyfile with file_server directive
+- Created supervise-caddy.sh for auto-restart on OOM kill
+
+Stage Summary:
+- Site served as static export via Caddy file_server on port 3000
+- Root Caddy on port 81 proxies to our Caddy on port 3000
+- Preview URL: https://preview-chat-43a09ff5-16bf-4d72-9dbb-60432c3f5e5c.space-z.ai/
+- Auto-restart supervisor handles OOM kills with ~0.2s restart time
+- All pages and 171 WebP hero frames accessible
+- Site is functional but may have brief 502s during OOM restart cycles
