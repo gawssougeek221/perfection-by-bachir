@@ -76,8 +76,8 @@ export default function Footer() {
 
   return (
     <>
-      {/* Spacer that triggers the reveal — tall enough so footer doesn't overlap above sections */}
-      <div ref={spacerRef} className="h-[100vh]" />
+      {/* Spacer that triggers the reveal — white bg for seamless CTA→Footer flow */}
+      <div ref={spacerRef} className="h-[100vh] bg-bachir-white" />
 
       <footer
         ref={footerRef}
