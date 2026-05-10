@@ -43,20 +43,8 @@ export default function Gallery() {
     if (!sectionRef.current || !trackRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Header — parallax (moves slower)
+      // Header reveal
       if (headerRef.current) {
-        gsap.to(headerRef.current, {
-          y: -40,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-
-        // Header reveal
         gsap.from(headerRef.current, {
           y: 60,
           opacity: 0,

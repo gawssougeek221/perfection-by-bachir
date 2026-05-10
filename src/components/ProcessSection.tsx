@@ -16,7 +16,6 @@ const STEPS = [
 export default function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -75,20 +74,6 @@ export default function ProcessSection() {
           },
         });
       }
-
-      // Background subtle parallax
-      if (bgRef.current) {
-        gsap.to(bgRef.current, {
-          y: -60,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
     }, sectionRef);
 
     return () => {
@@ -98,8 +83,8 @@ export default function ProcessSection() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
-      {/* Subtle background with parallax */}
-      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+      {/* Subtle background */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[40vh] rounded-full" style={{
           background: 'radial-gradient(ellipse, rgba(200,169,107,0.03) 0%, transparent 60%)',
           filter: 'blur(80px)',

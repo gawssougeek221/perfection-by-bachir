@@ -11,13 +11,12 @@ export default function AboutBachir() {
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const depthBgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Image — scrub-based clipPath reveal + parallax (moves slower = further away)
+      // Image — scrub-based clipPath reveal
       if (imageRef.current) {
         gsap.from(imageRef.current, {
           clipPath: 'inset(100% 0 0 0)',
@@ -28,18 +27,6 @@ export default function AboutBachir() {
             start: 'top 80%',
             end: 'top 25%',
             scrub: 1,
-          },
-        });
-
-        // Image parallax — moves slower relative to text
-        gsap.to(imageRef.current, {
-          y: -50,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
           },
         });
       }
@@ -73,20 +60,6 @@ export default function AboutBachir() {
           });
         });
       }
-
-      // Parallax depth on background — enhanced movement range
-      if (depthBgRef.current) {
-        gsap.to(depthBgRef.current, {
-          y: -150,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-      }
     }, sectionRef);
 
     return () => {
@@ -103,8 +76,8 @@ export default function AboutBachir() {
       {/* Top gradient — smooth transition from StatsSection (light) to this (dark) */}
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-bachir-white to-transparent z-20 pointer-events-none" />
 
-      {/* Depth blur background — enhanced parallax */}
-      <div ref={depthBgRef} className="absolute inset-0 pointer-events-none">
+      {/* Depth blur background */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[60vw] h-[60vh] rounded-full" style={{
           background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 60%)',
           filter: 'blur(80px)',
@@ -141,7 +114,7 @@ export default function AboutBachir() {
             }} />
           </div>
 
-          {/* Story — with blur reveal and staggered parallax */}
+          {/* Story — with blur reveal */}
           <div ref={textRef}>
             <p className="about-text-reveal text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
               Notre Histoire

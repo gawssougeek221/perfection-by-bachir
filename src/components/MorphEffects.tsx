@@ -11,7 +11,6 @@ const WORDS = ['RÉPARER', 'RESTAURER', 'TRANSFORMER', 'RENAÎTRE'];
 export default function MorphEffects() {
   const sectionRef = useRef<HTMLElement>(null);
   const wordRefs = useRef<HTMLDivElement[]>([]);
-  const blobRefs = useRef<HTMLDivElement[]>([]);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
@@ -62,23 +61,6 @@ export default function MorphEffects() {
       });
 
       scrollTriggerRef.current = st;
-
-      // Parallax on blobs — each moves at different speed tied to scroll scrub
-      blobRefs.current.forEach((blob, i) => {
-        if (!blob) return;
-        const speeds = [-60, -80, -50, -70, -90];
-        gsap.to(blob, {
-          y: speeds[i % speeds.length],
-          x: (i % 2 === 0 ? 1 : -1) * (20 + i * 10),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      });
     }, sectionRef);
 
     return () => {
@@ -91,14 +73,11 @@ export default function MorphEffects() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-bachir-black"
     >
-      {/* Morphing blobs background — with parallax refs */}
+      {/* Morphing blobs background */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            ref={(el) => {
-              if (el) blobRefs.current[i] = el;
-            }}
             className="absolute rounded-full"
             style={{
               width: `${200 + i * 80}px`,

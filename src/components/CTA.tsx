@@ -11,7 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function CTA() {
   const sectionRef = useRef<HTMLElement>(null);
-  const orbRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -44,22 +43,6 @@ export default function CTA() {
           },
         });
       });
-
-      // Background orbs parallax
-      orbRefs.current.forEach((orb, i) => {
-        if (!orb) return;
-        gsap.to(orb, {
-          y: i === 0 ? -80 : -50,
-          x: i === 0 ? 20 : -20,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      });
     }, sectionRef);
 
     return () => {
@@ -76,10 +59,9 @@ export default function CTA() {
       {/* Top gradient — smooth transition from Testimonials (dark) to this (light) */}
       <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-bachir-black to-transparent z-20 pointer-events-none" />
 
-      {/* Depth blur layers — with parallax */}
+      {/* Depth blur layers */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          ref={(el) => { if (el) orbRefs.current[0] = el; }}
           className="absolute top-0 left-1/3 w-[50vw] h-[60vh] rounded-full"
           style={{
             background: 'radial-gradient(circle, rgba(200,169,107,0.06) 0%, transparent 60%)',
@@ -87,7 +69,6 @@ export default function CTA() {
           }}
         />
         <div
-          ref={(el) => { if (el) orbRefs.current[1] = el; }}
           className="absolute bottom-0 right-1/4 w-[40vw] h-[40vh] rounded-full"
           style={{
             background: 'radial-gradient(circle, rgba(10,10,10,0.04) 0%, transparent 60%)',

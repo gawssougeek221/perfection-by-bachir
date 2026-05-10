@@ -65,7 +65,6 @@ const logos = [
 
 export default function TrustLogos() {
   const sectionRef = useRef<HTMLElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -97,20 +96,6 @@ export default function TrustLogos() {
           },
         });
       });
-
-      // Background subtle parallax
-      if (bgRef.current) {
-        gsap.to(bgRef.current, {
-          y: -40,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
     }, sectionRef);
 
     return () => {
@@ -123,8 +108,8 @@ export default function TrustLogos() {
       ref={sectionRef}
       className="relative bg-bachir-white py-24 md:py-32 overflow-hidden"
     >
-      {/* Subtle background decorative element with parallax */}
-      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+      {/* Subtle background decorative element */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[40vw] h-[40vh] rounded-full" style={{
           background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 60%)',
           filter: 'blur(80px)',

@@ -49,17 +49,6 @@ export default function BeforeAfter() {
         }
       );
 
-      // Parallax y-movement on the container
-      gsap.to(containerRef.current, {
-        y: -30,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      });
     }, sectionRef);
 
     return () => {

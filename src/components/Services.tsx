@@ -74,7 +74,6 @@ const SERVICES = [
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
-  const orbRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -107,21 +106,6 @@ export default function Services() {
           },
         });
       });
-
-      // Background orbs parallax — move at 0.4x speed
-      orbRefs.current.forEach((orb, i) => {
-        if (!orb) return;
-        gsap.to(orb, {
-          y: i === 0 ? -80 : -60,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        });
-      });
     }, sectionRef);
 
     return () => {
@@ -135,10 +119,9 @@ export default function Services() {
       ref={sectionRef}
       className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
     >
-      {/* Depth blur background orbs — with parallax */}
+      {/* Depth blur background orbs */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          ref={(el) => { if (el) orbRefs.current[0] = el; }}
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
           style={{
             background: 'radial-gradient(circle, rgba(200,169,107,0.05) 0%, transparent 70%)',
@@ -146,7 +129,6 @@ export default function Services() {
           }}
         />
         <div
-          ref={(el) => { if (el) orbRefs.current[1] = el; }}
           className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full"
           style={{
             background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 70%)',

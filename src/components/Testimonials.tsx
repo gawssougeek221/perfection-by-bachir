@@ -29,7 +29,6 @@ const TESTIMONIALS = [
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -60,20 +59,6 @@ export default function Testimonials() {
           },
         });
       });
-
-      // Background subtle parallax movement
-      if (bgRef.current) {
-        gsap.to(bgRef.current, {
-          y: -50,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
     }, sectionRef);
 
     return () => {
@@ -83,8 +68,8 @@ export default function Testimonials() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
-      {/* Background decorative element with parallax */}
-      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
+      {/* Background decorative element */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 right-0 w-[50vw] h-[50vh] rounded-full" style={{
           background: 'radial-gradient(circle, rgba(200,169,107,0.03) 0%, transparent 60%)',
           filter: 'blur(80px)',

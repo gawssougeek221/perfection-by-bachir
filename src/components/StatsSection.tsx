@@ -17,26 +17,11 @@ export default function StatsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const counterRefs = useRef<HTMLSpanElement[]>([]);
   const objRefs = useRef(STATS.map(() => ({ val: 0 })));
-  const bgOrbRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Background orb parallax — moves at 0.3x speed (very slow = far away)
-      if (bgOrbRef.current) {
-        gsap.to(bgOrbRef.current, {
-          y: -60,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
-
       // Scrub-based reveal for the whole section
       gsap.from(sectionRef.current, {
         opacity: 0,
@@ -90,8 +75,8 @@ export default function StatsSection() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-white py-24 md:py-36 overflow-hidden">
-      {/* Depth blur orbs in background — parallax */}
-      <div ref={bgOrbRef} className="absolute inset-0 pointer-events-none">
+      {/* Depth blur orbs in background */}
+      <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[50vh] rounded-full" style={{
           background: 'radial-gradient(ellipse, rgba(200,169,107,0.06) 0%, transparent 60%)',
           filter: 'blur(60px)',
