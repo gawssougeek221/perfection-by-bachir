@@ -26,6 +26,7 @@ export default function Navbar() {
     gsap.from(navRef.current, {
       y: -100,
       opacity: 0,
+      filter: 'blur(10px)',
       duration: 1,
       ease: 'power3.out',
       delay: 2.2,
@@ -48,11 +49,14 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-[90] transition-all duration-700 ${
         scrolled
-          ? 'bg-bachir-black/80 backdrop-blur-xl border-b border-white/5'
+          ? 'bg-bachir-black/60 backdrop-blur-2xl border-b border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.4)]'
           : 'bg-transparent'
       }`}
+      style={{
+        backdropFilter: scrolled ? 'blur(20px) saturate(1.5)' : 'none',
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16 md:h-20">
         {/* Logo */}
@@ -82,7 +86,7 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick(link.href);
               }}
-              className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 hover:text-bachir-gold transition-colors duration-300"
+              className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 hover:text-bachir-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(200,169,107,0.3)]"
             >
               {link.label}
             </a>
@@ -91,7 +95,7 @@ export default function Navbar() {
             href="https://wa.me/221770000000"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-4 px-5 py-2 border border-bachir-gold/30 text-bachir-gold text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300"
+            className="ml-4 px-5 py-2 border border-bachir-gold/30 text-bachir-gold text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(200,169,107,0.3)]"
           >
             WhatsApp
           </a>
@@ -106,9 +110,12 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu — glassmorphism depth */}
       {mobileOpen && (
-        <div className="md:hidden bg-bachir-black/95 backdrop-blur-xl border-t border-white/5">
+        <div className="md:hidden bg-bachir-black/70 border-t border-white/5" style={{
+          backdropFilter: 'blur(30px) saturate(1.5)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+        }}>
           <div className="px-6 py-8 flex flex-col gap-6">
             {NAV_LINKS.map((link) => (
               <a
@@ -118,7 +125,7 @@ export default function Navbar() {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }}
-                className="text-sm tracking-[0.2em] uppercase text-white/60 hover:text-bachir-gold transition-colors"
+                className="text-sm tracking-[0.2em] uppercase text-white/60 hover:text-bachir-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(200,169,107,0.2)]"
               >
                 {link.label}
               </a>
@@ -127,7 +134,7 @@ export default function Navbar() {
               href="https://wa.me/221770000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-block px-6 py-3 border border-bachir-gold text-bachir-gold text-xs tracking-[0.2em] uppercase font-semibold text-center"
+              className="mt-4 inline-block px-6 py-3 border border-bachir-gold text-bachir-gold text-xs tracking-[0.2em] uppercase font-semibold text-center hover:shadow-[0_0_20px_rgba(200,169,107,0.3)]"
             >
               WhatsApp
             </a>

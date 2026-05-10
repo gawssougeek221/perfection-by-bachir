@@ -78,15 +78,26 @@ export default function Gallery() {
           <div
             key={i}
             className="group relative flex-shrink-0 w-[75vw] md:w-[40vw] aspect-[4/3] overflow-hidden"
+            style={{
+              perspective: '800px',
+            }}
           >
             {/* Background */}
             <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
 
+            {/* Depth blur overlay on non-hovered cards */}
+            <div className="absolute inset-0 opacity-40 group-hover:opacity-0 transition-opacity duration-500" style={{
+              backdropFilter: 'blur(2px)',
+              background: 'rgba(0,0,0,0.2)',
+            }} />
+
             {/* Placeholder visual */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:border-bachir-gold/30 transition-colors duration-500">
-                  <span className="text-white/20 text-3xl group-hover:text-bachir-gold/40 transition-colors duration-500">
+            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-105 group-hover:translate-z-4" style={{
+              transformStyle: 'preserve-3d',
+            }}>
+              <div className="text-center" style={{ transform: 'translateZ(20px)' }}>
+                <div className="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:border-bachir-gold/30 group-hover:shadow-[0_0_30px_rgba(200,169,107,0.2)] transition-all duration-500">
+                  <span className="text-white/20 text-3xl group-hover:text-bachir-gold/40 transition-colors duration-500 drop-shadow-[0_0_10px_rgba(200,169,107,0.1)]">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                 </div>
@@ -98,21 +109,33 @@ export default function Gallery() {
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{
                 background:
-                  'linear-gradient(105deg, transparent 40%, rgba(200,169,107,0.05) 45%, transparent 50%)',
+                  'linear-gradient(105deg, transparent 40%, rgba(200,169,107,0.08) 45%, transparent 50%)',
                 backgroundSize: '200% 100%',
                 animation: 'galleryShine 2s ease-in-out infinite',
               }}
             />
 
+            {/* Depth shadow on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{
+              boxShadow: 'inset 0 0 80px rgba(0,0,0,0.4), 0 0 60px rgba(200,169,107,0.08)',
+            }} />
+
             {/* Info overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-bachir-black/80 to-transparent">
-              <p className="text-bachir-gold text-[9px] tracking-[0.4em] uppercase font-medium mb-2">
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-bachir-black/90 via-bachir-black/40 to-transparent" style={{
+              backdropFilter: 'blur(8px)',
+            }}>
+              <p className="text-bachir-gold text-[9px] tracking-[0.4em] uppercase font-medium mb-2 drop-shadow-[0_0_10px_rgba(200,169,107,0.3)]">
                 {item.subtitle}
               </p>
               <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-semibold text-bachir-white tracking-tight">
                 {item.title}
               </h3>
             </div>
+
+            {/* Depth vignette */}
+            <div className="absolute inset-0 pointer-events-none opacity-60 group-hover:opacity-30 transition-opacity duration-500" style={{
+              background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%)',
+            }} />
           </div>
         ))}
       </div>

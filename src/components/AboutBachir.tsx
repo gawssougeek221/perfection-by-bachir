@@ -10,6 +10,8 @@ gsap.registerPlugin(ScrollTrigger);
 export default function AboutBachir() {
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  const depthBgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -17,11 +19,40 @@ export default function AboutBachir() {
     if (imageRef.current) {
       gsap.from(imageRef.current, {
         clipPath: 'inset(100% 0 0 0)',
+        filter: 'blur(10px)',
         duration: 1.2,
         ease: 'power4.inOut',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 70%',
+        },
+      });
+    }
+
+    if (textRef.current) {
+      gsap.from(textRef.current, {
+        y: 60,
+        opacity: 0,
+        filter: 'blur(6px)',
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 60%',
+        },
+      });
+    }
+
+    // Parallax depth on background
+    if (depthBgRef.current) {
+      gsap.to(depthBgRef.current, {
+        y: -80,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
         },
       });
     }
@@ -31,25 +62,48 @@ export default function AboutBachir() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative bg-bachir-black py-24 md:py-36"
+      className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+      {/* Depth blur background */}
+      <div ref={depthBgRef} className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[60vw] h-[60vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
+        <div className="absolute bottom-0 left-0 w-[40vw] h-[40vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.03) 0%, transparent 60%)',
+          filter: 'blur(100px)',
+        }} />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-          {/* Image */}
-          <div ref={imageRef} className="relative aspect-[3/4] overflow-hidden">
+          {/* Image — with depth shadow and blur reveal */}
+          <div ref={imageRef} className="relative aspect-[3/4] overflow-hidden" style={{
+            boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(200,169,107,0.05)',
+          }}>
             <img
               src="/about-bachir.png"
               alt="Bachir - Fondateur de Perfection by Bachir"
               className="absolute inset-0 w-full h-full object-cover"
             />
+            {/* Depth blur overlay — simulates DOF */}
+            <div className="absolute inset-0 pointer-events-none" style={{
+              background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4) 100%)',
+            }} />
             <div className="absolute inset-0 bg-gradient-to-t from-bachir-black/60 via-transparent to-transparent" />
             {/* Gold border accent */}
             <div className="absolute top-0 left-0 w-1 h-full bg-bachir-gold/30" />
             <div className="absolute top-0 left-0 h-1 w-full bg-bachir-gold/30" />
+            {/* Bokeh depth particles on image */}
+            <div className="absolute inset-0 pointer-events-none opacity-40" style={{
+              background: 'radial-gradient(circle at 30% 20%, rgba(200,169,107,0.1) 0%, transparent 30%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.05) 0%, transparent 20%)',
+              filter: 'blur(10px)',
+            }} />
           </div>
 
-          {/* Story */}
-          <div>
+          {/* Story — with blur reveal */}
+          <div ref={textRef}>
             <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
               Notre Histoire
             </p>
@@ -79,7 +133,7 @@ export default function AboutBachir() {
 
             <div className="mt-8 flex items-center gap-6">
               <div className="h-px w-12 bg-bachir-gold/30" />
-              <span className="text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium">
+              <span className="text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium drop-shadow-[0_0_8px_rgba(200,169,107,0.2)]">
                 12+ ans d&apos;excellence
               </span>
             </div>

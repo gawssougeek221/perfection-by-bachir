@@ -15,6 +15,19 @@ export default function CTA() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
+    // Blur reveal for CTA
+    gsap.from(sectionRef.current.querySelector('.cta-content'), {
+      y: 40,
+      opacity: 0,
+      filter: 'blur(10px)',
+      duration: 1.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top 75%',
+      },
+    });
+
     gsap.from('.cta-line', {
       scaleY: 0,
       stagger: 0.1,
@@ -33,6 +46,18 @@ export default function CTA() {
       ref={sectionRef}
       className="relative bg-bachir-white py-32 md:py-44 overflow-hidden"
     >
+      {/* Depth blur layers */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/3 w-[50vw] h-[60vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(200,169,107,0.06) 0%, transparent 60%)',
+          filter: 'blur(80px)',
+        }} />
+        <div className="absolute bottom-0 right-1/4 w-[40vw] h-[40vh] rounded-full" style={{
+          background: 'radial-gradient(circle, rgba(10,10,10,0.04) 0%, transparent 60%)',
+          filter: 'blur(60px)',
+        }} />
+      </div>
+
       {/* Decorative vertical lines */}
       <div className="absolute inset-0 flex justify-between px-12 md:px-24 opacity-10">
         {[...Array(5)].map((_, i) => (
@@ -43,7 +68,7 @@ export default function CTA() {
         ))}
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-6 md:px-12 text-center">
+      <div className="cta-content relative max-w-4xl mx-auto px-6 md:px-12 text-center z-10">
         <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-6">
           Prenez Rendez-vous
         </p>
@@ -77,7 +102,7 @@ export default function CTA() {
           <Magnetic strength={0.3}>
             <a
               href="tel:+221770000000"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gray-900 text-bachir-gray-900 text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gray-900 hover:text-bachir-white transition-all duration-300"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gray-900 text-bachir-gray-900 text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gray-900 hover:text-bachir-white transition-all duration-300 hover:shadow-[0_0_30px_rgba(10,10,10,0.2)]"
             >
               +221 77 000 00 00
             </a>
