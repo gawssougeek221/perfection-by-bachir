@@ -21,7 +21,7 @@ export default function MorphEffects() {
       const st = ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
-        end: '+=300%',
+        end: '+=150%',
         pin: true,
         scrub: 1,
         onUpdate: (self) => {
@@ -73,6 +73,9 @@ export default function MorphEffects() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-bachir-black"
     >
+      {/* Fade to white — smooth exit towards TrustLogos */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-bachir-white to-transparent z-20 pointer-events-none" />
+
       {/* Words */}
       <div className="relative z-10 flex flex-col items-center">
         {WORDS.map((word, i) => (
