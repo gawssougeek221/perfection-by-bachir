@@ -61,13 +61,13 @@ export default function CTA() {
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className="cta-line w-px h-full bg-bachir-gold origin-top"
+            className="cta-line w-px h-full bg-white/5 origin-top"
           />
         ))}
       </div>
 
       <div className="cta-content relative max-w-4xl mx-auto px-6 md:px-12 text-center z-10">
-        <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-6">
+        <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-6">
           Prenez Rendez-vous
         </p>
 
@@ -100,7 +100,7 @@ export default function CTA() {
           <Magnetic strength={0.3}>
             <a
               href="tel:+221770000000"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gold/40 text-bachir-gold text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(200,169,107,0.2)]"
+              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gold/40 text-bachir-gold text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(184,134,11,0.2)]"
             >
               +221 77 000 00 00
             </a>

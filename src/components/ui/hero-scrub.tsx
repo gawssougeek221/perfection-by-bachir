@@ -50,7 +50,7 @@ export function HeroScrub({
   titleBottom,
   subtitle,
   bgClassName = "bg-bachir-black",
-  accentHex = "#C8A96B",
+  accentHex = "#B8860B",
   defaultAspect = 16 / 9,
 }: HeroScrubProps) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -282,7 +282,7 @@ export function HeroScrub({
 
         {/* Radial gold light spot */}
         <div aria-hidden className="absolute inset-0 z-0" style={{
-          background: "radial-gradient(ellipse at 50% 35%, rgba(200,169,107,0.06) 0%, rgba(0,0,0,0) 55%)",
+          background: "radial-gradient(ellipse at 50% 35%, rgba(184,134,11,0.06) 0%, rgba(0,0,0,0) 55%)",
         }} />
 
         {/* Vignette — depth effect */}
@@ -292,7 +292,7 @@ export function HeroScrub({
 
         {/* Gold ambient glow at bottom */}
         <div aria-hidden className="absolute inset-0 z-0" style={{
-          background: "linear-gradient(to top, rgba(200,169,107,0.08) 0%, transparent 40%)",
+          background: "linear-gradient(to top, rgba(184,134,11,0.08) 0%, transparent 40%)",
         }} />
 
         <div className="relative z-10 flex h-full w-full flex-col items-center justify-center gap-3 md:gap-4">
@@ -321,7 +321,7 @@ export function HeroScrub({
               boxShadow: `
                 0 20px 80px rgba(0,0,0,0.55),
                 0 0 0 1px rgba(255,255,255,0.06),
-                0 0 80px rgba(200,169,107,0.06)
+                0 0 80px rgba(184,134,11,0.06)
               `,
             }}
           >
@@ -330,7 +330,7 @@ export function HeroScrub({
 
             {/* Gold border glow */}
             <div aria-hidden className="pointer-events-none absolute inset-0 z-20 rounded-[12px] md:rounded-[16px]" style={{
-              boxShadow: "inset 0 0 30px rgba(200,169,107,0.1), 0 0 40px rgba(200,169,107,0.05)",
+              boxShadow: "inset 0 0 30px rgba(184,134,11,0.1), 0 0 40px rgba(184,134,11,0.05)",
             }} />
 
             {/* Canvas */}
@@ -383,8 +383,8 @@ export function HeroScrub({
 
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
-          <span className="text-bachir-gold/40 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-bachir-gold/50 to-transparent animate-bounce" />
+          <span className="text-white/30 text-[9px] tracking-[0.3em] uppercase">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-white/30 to-transparent animate-bounce" />
         </div>
       </div>
     </section>

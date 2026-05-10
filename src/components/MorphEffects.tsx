@@ -84,10 +84,10 @@ export default function MorphEffects() {
             className="absolute font-[family-name:var(--font-syne)] text-[10vw] md:text-[10rem] font-bold tracking-tighter leading-none will-change-transform"
             style={{
               opacity: i === 0 ? 1 : 0,
-              color: i === WORDS.length - 1 ? '#C8A96B' : '#FFFFFF',
+              color: i === WORDS.length - 1 ? '#B8860B' : '#FFFFFF',
               textShadow:
                 i === WORDS.length - 1
-                  ? '0 0 60px rgba(200,169,107,0.5), 0 0 120px rgba(200,169,107,0.2)'
+                  ? '0 0 60px rgba(184,134,11,0.5), 0 0 120px rgba(184,134,11,0.2)'
                   : '0 0 30px rgba(255,255,255,0.05)',
             }}
           >

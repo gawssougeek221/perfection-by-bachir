@@ -84,13 +84,13 @@ export default function AboutBachir() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-bachir-black/60 via-transparent to-transparent" />
             {/* Gold border accent */}
-            <div className="absolute top-0 left-0 w-1 h-full bg-bachir-gold/30" />
-            <div className="absolute top-0 left-0 h-1 w-full bg-bachir-gold/30" />
+            <div className="absolute top-0 left-0 w-1 h-full bg-white/10" />
+            <div className="absolute top-0 left-0 h-1 w-full bg-white/10" />
           </div>
 
           {/* Story — with blur reveal */}
           <div ref={textRef}>
-            <p className="about-text-reveal text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+            <p className="about-text-reveal text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
               Notre Histoire
             </p>
             <SplitText
@@ -118,8 +118,8 @@ export default function AboutBachir() {
             </div>
 
             <div className="about-text-reveal mt-8 flex items-center gap-6">
-              <div className="h-px w-12 bg-bachir-gold/30" />
-              <span className="text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium drop-shadow-[0_0_8px_rgba(200,169,107,0.2)]">
+              <div className="h-px w-12 bg-white/15" />
+              <span className="text-white/50 text-[10px] tracking-[0.3em] uppercase font-medium">
                 12+ ans d&apos;excellence
               </span>
             </div>

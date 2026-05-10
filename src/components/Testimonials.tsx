@@ -70,7 +70,7 @@ export default function Testimonials() {
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="testimonials-title text-center mb-16">
-          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
             Témoignages
           </p>
           <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white">
@@ -82,7 +82,7 @@ export default function Testimonials() {
           {TESTIMONIALS.map((t, i) => (
             <div
               key={i}
-              className="testimonial-card group p-8 border border-white/5 hover:border-bachir-gold/20 transition-all duration-500"
+              className="testimonial-card group p-8 border border-white/5 hover:border-white/15 transition-all duration-500"
             >
               {/* Stars */}
               <div className="flex gap-1 mb-6">
@@ -106,7 +106,7 @@ export default function Testimonials() {
               {/* Author */}
               <div>
                 <p className="text-bachir-white text-sm font-medium">{t.name}</p>
-                <p className="text-bachir-gold text-[10px] tracking-[0.2em] uppercase mt-1">
+                <p className="text-white/40 text-[10px] tracking-[0.2em] uppercase mt-1">
                   {t.car}
                 </p>
               </div>

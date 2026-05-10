@@ -98,7 +98,7 @@ export default function Gallery() {
   return (
     <section ref={sectionRef} className="relative bg-bachir-black overflow-hidden">
       <div ref={headerRef} className="py-16 md:py-24 px-6 md:px-12">
-        <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+        <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
           Galerie
         </p>
         <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white">
@@ -130,7 +130,7 @@ export default function Gallery() {
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
               style={{
                 background:
-                  'linear-gradient(105deg, transparent 40%, rgba(200,169,107,0.08) 45%, transparent 50%)',
+                  'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 45%, transparent 50%)',
                 backgroundSize: '200% 100%',
                 animation: 'galleryShine 2s ease-in-out infinite',
               }}
@@ -140,7 +140,7 @@ export default function Gallery() {
 
             {/* Info overlay */}
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 bg-gradient-to-t from-bachir-black/80 via-bachir-black/30 to-transparent">
-              <p className="text-bachir-gold text-[9px] tracking-[0.4em] uppercase font-medium mb-2 drop-shadow-[0_0_10px_rgba(200,169,107,0.3)]">
+              <p className="text-white/50 text-[9px] tracking-[0.4em] uppercase font-medium mb-2">
                 {item.subtitle}
               </p>
               <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-semibold text-bachir-white tracking-tight">

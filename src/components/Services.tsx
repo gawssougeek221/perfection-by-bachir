@@ -121,7 +121,7 @@ export default function Services() {
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="services-title mb-16 md:mb-20">
-          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
             Nos Services
           </p>
           <SplitText
@@ -138,7 +138,7 @@ export default function Services() {
             return (
               <div
                 key={service.num}
-                className="service-card group relative overflow-hidden border border-white/5 hover:border-bachir-gold/20 transition-all duration-700 bg-bachir-black"
+                className="service-card group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-700 bg-bachir-black"
               >
                 {/* Image */}
                 <div className="relative h-48 md:h-56 overflow-hidden">
@@ -150,15 +150,15 @@ export default function Services() {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-bachir-black via-bachir-black/40 to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <Icon className="w-12 h-12 text-bachir-gold/30 drop-shadow-[0_0_20px_rgba(200,169,107,0.3)]" />
+                    <Icon className="w-12 h-12 text-white/20" />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="relative p-6 md:p-8">
                   <div className="flex items-center gap-3 mb-4">
-                    <Icon className="w-4 h-4 text-bachir-gold" />
-                    <span className="text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium">
+                    <Icon className="w-4 h-4 text-white/30" />
+                    <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-medium">
                       {service.subtitle}
                     </span>
                   </div>
@@ -168,7 +168,7 @@ export default function Services() {
                   <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6">
                     {service.description}
                   </p>
-                  <span className="text-bachir-gold text-xs tracking-[0.2em] uppercase font-medium group-hover:tracking-[0.3em] group-hover:drop-shadow-[0_0_8px_rgba(200,169,107,0.4)] transition-all duration-300">
+                  <span className="text-white/60 text-xs tracking-[0.2em] uppercase font-medium group-hover:tracking-[0.3em] transition-all duration-300">
                     En savoir plus →
                   </span>
                 </div>

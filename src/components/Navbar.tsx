@@ -68,7 +68,7 @@ export default function Navbar() {
           }}
           className="flex items-center gap-3 group"
         >
-          <span className="font-[family-name:var(--font-syne)] text-lg md:text-xl font-bold tracking-tight text-bachir-white group-hover:text-bachir-gold transition-colors duration-300">
+          <span className="font-[family-name:var(--font-syne)] text-lg md:text-xl font-bold tracking-tight text-bachir-white group-hover:text-white transition-colors duration-300">
             PERFECTION
           </span>
           <span className="hidden md:inline text-bachir-gold text-[10px] tracking-[0.3em] uppercase font-medium">
@@ -86,7 +86,7 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick(link.href);
               }}
-              className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 hover:text-bachir-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(200,169,107,0.3)]"
+              className="text-[11px] font-medium tracking-[0.2em] uppercase text-white/50 hover:text-white transition-all duration-300"
             >
               {link.label}
             </a>
@@ -95,7 +95,7 @@ export default function Navbar() {
             href="https://wa.me/221770000000"
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-4 px-5 py-2 border border-bachir-gold/30 text-bachir-gold text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(200,169,107,0.3)]"
+            className="ml-4 px-5 py-2 border border-bachir-gold/30 text-bachir-gold text-[10px] tracking-[0.2em] uppercase font-semibold hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_20px_rgba(184,134,11,0.3)]"
           >
             WhatsApp
           </a>
@@ -104,7 +104,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden text-bachir-white hover:text-bachir-gold transition-colors"
+          className="md:hidden text-bachir-white hover:text-white transition-colors"
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -125,7 +125,7 @@ export default function Navbar() {
                   e.preventDefault();
                   handleNavClick(link.href);
                 }}
-                className="text-sm tracking-[0.2em] uppercase text-white/60 hover:text-bachir-gold transition-all duration-300 hover:drop-shadow-[0_0_8px_rgba(200,169,107,0.2)]"
+                className="text-sm tracking-[0.2em] uppercase text-white/60 hover:text-white transition-all duration-300"
               >
                 {link.label}
               </a>
@@ -134,7 +134,7 @@ export default function Navbar() {
               href="https://wa.me/221770000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-block px-6 py-3 border border-bachir-gold text-bachir-gold text-xs tracking-[0.2em] uppercase font-semibold text-center hover:shadow-[0_0_20px_rgba(200,169,107,0.3)]"
+              className="mt-4 inline-block px-6 py-3 border border-bachir-gold text-bachir-gold text-xs tracking-[0.2em] uppercase font-semibold text-center hover:shadow-[0_0_20px_rgba(184,134,11,0.3)]"
             >
               WhatsApp
             </a>

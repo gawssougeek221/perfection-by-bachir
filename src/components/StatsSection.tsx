@@ -89,7 +89,7 @@ export default function StatsSection() {
                   >
                     0
                   </span>
-                  <span className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl font-light text-bachir-gold drop-shadow-[0_0_10px_rgba(200,169,107,0.2)]">
+                  <span className="font-[family-name:var(--font-syne)] text-2xl md:text-4xl font-light text-white/50">
                     {stat.suffix}
                   </span>
                 </div>

@@ -80,7 +80,7 @@ export default function BeforeAfter() {
     >
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <div ref={headerRef}>
-          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
+          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4 text-center">
             Réalisations
           </p>
           <SplitText
@@ -136,7 +136,7 @@ export default function BeforeAfter() {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: `linear-gradient(105deg, transparent 40%, rgba(200,169,107,0.1) 45%, transparent 50%)`,
+                  background: `linear-gradient(105deg, transparent 40%, rgba(184,134,11,0.1) 45%, transparent 50%)`,
                   backgroundSize: '200% 100%',
                   animation: 'shine 3s ease-in-out infinite',
                 }}

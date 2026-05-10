@@ -85,7 +85,7 @@ export default function ProcessSection() {
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
       <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
         <div className="process-title text-center">
-          <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
             Notre Processus
           </p>
           <h2 className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-16 md:mb-24">
@@ -116,7 +116,7 @@ export default function ProcessSection() {
 
                 {/* Content */}
                 <div className={`ml-12 md:ml-0 md:w-[45%] ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <span className="step-number font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-bachir-gold/20">
+                  <span className="step-number font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-white/10">
                     {step.num}
                   </span>
                   <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-semibold text-bachir-white mt-2 tracking-tight">

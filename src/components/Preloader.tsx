@@ -57,13 +57,13 @@ export default function Preloader() {
           <h1 className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl font-bold tracking-tight text-bachir-gold">
             PERFECTION
           </h1>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-bachir-gold/20 to-transparent animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
         </div>
         <p className="text-bachir-gray-500 text-sm tracking-[0.3em] uppercase mb-6">
           Crafting Perfection…
         </p>
         <div className="flex items-center justify-center gap-3">
-          <div className="h-px w-12 bg-bachir-gold/30" />
+          <div className="h-px w-12 bg-white/15" />
           <span
             ref={counterRef}
             className="font-[family-name:var(--font-syne)] text-2xl font-light text-bachir-gold tabular-nums"
@@ -71,7 +71,7 @@ export default function Preloader() {
             0
           </span>
           <span className="text-bachir-gold/50 text-sm">%</span>
-          <div className="h-px w-12 bg-bachir-gold/30" />
+          <div className="h-px w-12 bg-white/15" />
         </div>
       </div>
     </div>

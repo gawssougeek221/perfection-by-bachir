@@ -90,7 +90,7 @@ export default function Footer() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
         >
           <span
-            className="font-[family-name:var(--font-syne)] font-bold text-bachir-gold/10 select-none"
+            className="font-[family-name:var(--font-syne)] font-bold text-white/5 select-none"
             style={{ fontSize: '15vw', letterSpacing: '-0.04em' }}
           >
             BACHIR
@@ -103,7 +103,7 @@ export default function Footer() {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[40vh] rounded-full opacity-15"
           style={{
             background:
-              'radial-gradient(ellipse, rgba(200,169,107,0.15) 0%, transparent 70%)',
+              'radial-gradient(ellipse, rgba(255,255,255,0.06) 0%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -128,14 +128,14 @@ export default function Footer() {
 
             {/* Services */}
             <div>
-              <h4 className="text-[10px] tracking-[0.3em] uppercase text-bachir-gold font-medium mb-4">
+              <h4 className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-medium mb-4">
                 Services
               </h4>
               <div className="flex flex-wrap gap-2">
                 {FOOTER_SERVICES.map((s) => (
                   <span
                     key={s}
-                    className="px-3 py-1 border border-white/10 text-bachir-gray-500 text-xs hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300"
+                    className="px-3 py-1 border border-white/10 text-bachir-gray-500 text-xs hover:border-white/30 hover:text-white/70 transition-colors duration-300"
                   >
                     {s}
                   </span>
@@ -145,7 +145,7 @@ export default function Footer() {
 
             {/* Contact */}
             <div>
-              <h4 className="text-[10px] tracking-[0.3em] uppercase text-bachir-gold font-medium mb-4">
+              <h4 className="text-[10px] tracking-[0.3em] uppercase text-white/40 font-medium mb-4">
                 Contact
               </h4>
               <div className="space-y-2 text-bachir-gray-500 text-sm">
@@ -156,19 +156,19 @@ export default function Footer() {
               <div className="flex gap-4 mt-4">
                 <a
                   href="#"
-                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-white/30 hover:text-white/70 transition-colors duration-300 text-xs"
                 >
                   IG
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-white/30 hover:text-white/70 transition-colors duration-300 text-xs"
                 >
                   FB
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-bachir-gold hover:text-bachir-gold transition-colors duration-300 text-xs"
+                  className="w-8 h-8 border border-white/10 flex items-center justify-center text-bachir-gray-500 hover:border-white/30 hover:text-white/70 transition-colors duration-300 text-xs"
                 >
                   TK
                 </a>
