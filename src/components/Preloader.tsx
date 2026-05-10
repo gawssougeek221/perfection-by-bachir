@@ -25,7 +25,7 @@ export default function Preloader() {
 
     tl.to(obj, {
       val: 100,
-      duration: 2,
+      duration: 1.8,
       ease: 'power2.inOut',
       onUpdate: () => {
         if (counterRef.current) {
@@ -34,10 +34,7 @@ export default function Preloader() {
       },
     });
 
-    // Safety timeout
-    const timeout = setTimeout(() => {
-      setVisible(false);
-    }, 4000);
+    const timeout = setTimeout(() => setVisible(false), 4000);
 
     return () => {
       tl.kill();
@@ -53,26 +50,15 @@ export default function Preloader() {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-bachir-black"
     >
       <div className="text-center">
-        <div className="relative mb-8">
-          <h1 className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl font-bold tracking-tight text-bachir-white">
-            PERFECTION
-          </h1>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
-        </div>
-        <p className="text-bachir-gray-500 text-sm tracking-[0.3em] uppercase mb-6">
-          Crafting Perfection…
+        <p className="font-[family-name:var(--font-syne)] text-xs tracking-[0.5em] uppercase text-white/20 mb-8">
+          Perfection by Bachir
         </p>
-        <div className="flex items-center justify-center gap-3">
-          <div className="h-px w-12 bg-white/15" />
-          <span
-            ref={counterRef}
-            className="font-[family-name:var(--font-syne)] text-2xl font-light text-bachir-white tabular-nums"
-          >
-            0
-          </span>
-          <span className="text-white/30 text-sm">%</span>
-          <div className="h-px w-12 bg-white/15" />
-        </div>
+        <span
+          ref={counterRef}
+          className="font-[family-name:var(--font-syne)] text-5xl font-light text-bachir-white tabular-nums"
+        >
+          0
+        </span>
       </div>
     </div>
   );

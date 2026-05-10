@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from '@/components/ui/SplitText';
 import Magnetic from '@/components/ui/Magnetic';
-import { Phone } from 'lucide-react';
+import { Phone, ArrowUpRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,91 +16,59 @@ export default function CTA() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // CTA content — scrub-based parallax reveal
-      const ctaContent = sectionRef.current?.querySelector('.cta-content');
-      if (ctaContent) {
-        gsap.from(ctaContent, {
-          y: 80,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            end: 'top 30%',
-            scrub: 1,
-          },
-        });
-      }
-
-      // Decorative lines — scrub-based animation
-      gsap.utils.toArray<HTMLElement>('.cta-line').forEach((line, i) => {
-        gsap.from(line, {
-          scaleY: 0,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top ${80 - i * 3}%`,
-            end: `top ${35 - i * 3}%`,
-            scrub: 1,
-          },
-        });
+      gsap.from('.cta-reveal', {
+        y: 40,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+        },
       });
     }, sectionRef);
 
-    return () => {
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="cta"
-      ref={sectionRef}
-      className="relative bg-bachir-black py-32 md:py-44 overflow-hidden"
-    >
-      {/* Decorative vertical lines */}
-      <div className="absolute inset-0 flex justify-between px-12 md:px-24 opacity-10">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="cta-line w-px h-full bg-white/5 origin-top"
-          />
-        ))}
-      </div>
-
-      <div className="cta-content relative max-w-4xl mx-auto px-6 md:px-12 text-center z-10">
-        <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-6">
+    <section id="cta" ref={sectionRef} className="bg-bachir-black py-28 md:py-44">
+      <div className="max-w-4xl mx-auto px-8 md:px-16 text-center">
+        <p className="cta-reveal text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-8">
           Prenez Rendez-vous
         </p>
 
         <SplitText
           as="h2"
-          className="font-[family-name:var(--font-syne)] text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-bachir-white leading-[1.1]"
+          className="cta-reveal font-[family-name:var(--font-syne)] text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight text-bachir-white leading-[1.05]"
         >
           Votre voiture mérite le meilleur
         </SplitText>
 
-        <p className="mt-6 md:mt-8 text-bachir-gray-500 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
-          Contactez-nous dès aujourd&apos;hui pour un diagnostic gratuit.
-          Notre équipe d&apos;experts est prête à transformer votre véhicule.
+        <p className="cta-reveal mt-6 text-white/30 text-sm max-w-md mx-auto leading-relaxed">
+          Contactez-nous pour un diagnostic gratuit.
+          Notre équipe est prête à transformer votre véhicule.
         </p>
 
-        <div className="mt-10 md:mt-14 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Magnetic strength={0.4}>
+        <div className="cta-reveal mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Magnetic strength={0.3}>
             <a
               href="https://wa.me/221770000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-[#22C55E] text-white font-semibold text-sm tracking-[0.1em] uppercase overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_rgba(34,197,94,0.4)] cursor-hover"
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-bachir-gold text-bachir-black font-semibold text-sm tracking-[0.1em] uppercase transition-all duration-300 hover:shadow-[0_0_40px_rgba(184,134,11,0.2)] cursor-hover"
             >
               <Phone className="w-4 h-4" />
               WhatsApp
-              <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+              <ArrowUpRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
             </a>
           </Magnetic>
 
-          <Magnetic strength={0.3}>
+          <Magnetic strength={0.2}>
             <a
               href="tel:+221770000000"
-              className="inline-flex items-center gap-2 px-8 py-4 border border-bachir-gold/40 text-bachir-gold text-sm tracking-[0.1em] uppercase font-medium hover:bg-bachir-gold hover:text-bachir-black transition-all duration-300 hover:shadow-[0_0_30px_rgba(184,134,11,0.2)]"
+              className="inline-flex items-center gap-2 px-8 py-4 text-white/50 text-sm tracking-[0.1em] uppercase font-medium hover:text-white transition-colors duration-300 cursor-hover"
             >
               +221 77 000 00 00
             </a>

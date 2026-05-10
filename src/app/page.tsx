@@ -2,15 +2,12 @@
 
 import dynamic from 'next/dynamic';
 
-// Dynamic imports to avoid SSR memory issues - all sections are client-only
 const Navbar = dynamic(() => import('@/components/Navbar'), { ssr: false });
 const HeroScrub = dynamic(() => import('@/components/ui/hero-scrub').then(m => ({ default: m.HeroScrub })), { ssr: false });
 const MorphEffects = dynamic(() => import('@/components/MorphEffects'), { ssr: false });
-const CarParticles = dynamic(() => import('@/components/CarParticles'), { ssr: false });
 const TrustLogos = dynamic(() => import('@/components/TrustLogos'), { ssr: false });
 const StatsSection = dynamic(() => import('@/components/StatsSection'), { ssr: false });
 const AboutBachir = dynamic(() => import('@/components/AboutBachir'), { ssr: false });
-const DrawSVGSeparator = dynamic(() => import('@/components/DrawSVGSeparator'), { ssr: false });
 const Services = dynamic(() => import('@/components/Services'), { ssr: false });
 const ProcessSection = dynamic(() => import('@/components/ProcessSection'), { ssr: false });
 const BeforeAfter = dynamic(() => import('@/components/BeforeAfter'), { ssr: false });
@@ -24,7 +21,7 @@ export default function Home() {
     <main className="relative">
       <Navbar />
 
-      {/* 01 — HERO: 171 frames cinematic scrub */}
+      {/* 01 — HERO: 171 frames cinematic scrub (unchanged) */}
       <HeroScrub
         frameCount={171}
         frameUrl={(i) => `/frames-webp/frame_${String(i + 1).padStart(4, '0')}.webp`}
@@ -34,47 +31,37 @@ export default function Home() {
         accentHex="#B8860B"
       />
 
-      {/* 02 — MORPH TEXT: REPAIR > RESTORE > TRANSFORM > REBIRTH */}
+      {/* 02 — MORPH TEXT (unchanged) */}
       <MorphEffects />
-
-      {/* 02b — 3D CAR PARTICLES: Scroll-driven particle convergence */}
-      <CarParticles />
 
       {/* 03 — TRUST LOGOS */}
       <TrustLogos />
-      <DrawSVGSeparator variant="diamond" />
 
-      {/* 04 — STATS with odometer counters */}
+      {/* 04 — STATS */}
       <StatsSection />
-      <DrawSVGSeparator variant="line" />
 
       {/* 05 — ABOUT BACHIR */}
       <AboutBachir />
-      <DrawSVGSeparator variant="ornament" />
 
-      {/* 06 — SERVICES with tilt cards + scroll velocity text */}
+      {/* 06 — SERVICES */}
       <Services />
-      <DrawSVGSeparator variant="diamond" />
 
-      {/* 07 — PROCESS with animated SVG line */}
+      {/* 07 — PROCESS */}
       <ProcessSection />
-      <DrawSVGSeparator variant="line" />
 
       {/* 08 — BEFORE / AFTER */}
       <BeforeAfter />
-      <DrawSVGSeparator variant="ornament" />
 
-      {/* 09 — GALLERY: Horizontal scroll with parallax + tilt */}
+      {/* 09 — GALLERY */}
       <Gallery />
 
-      {/* 10 — TESTIMONIALS with tilt cards */}
+      {/* 10 — TESTIMONIALS */}
       <Testimonials />
-      <DrawSVGSeparator variant="diamond" />
 
-      {/* 11 — CTA with magnetic buttons */}
+      {/* 11 — CTA */}
       <CTA />
 
-      {/* 12 — CINEMATIC FOOTER */}
+      {/* 12 — FOOTER */}
       <Footer />
     </main>
   );

@@ -24,7 +24,7 @@ export default function Magnetic({ children, strength = 0.3, className = '' }: M
       gsap.to(ref.current, {
         x: deltaX,
         y: deltaY,
-        duration: 0.4,
+        duration: 0.5,
         ease: 'power2.out',
       });
     },
@@ -36,8 +36,8 @@ export default function Magnetic({ children, strength = 0.3, className = '' }: M
     gsap.to(ref.current, {
       x: 0,
       y: 0,
-      duration: 0.7,
-      ease: 'elastic.out(1, 0.4)',
+      duration: 0.8,
+      ease: 'elastic.out(1, 0.3)',
     });
   }, []);
 

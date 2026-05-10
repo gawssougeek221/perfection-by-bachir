@@ -22,50 +22,22 @@ export default function ProcessSection() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Title reveal — scrub-based
-      gsap.from('.process-title', {
-        y: 60,
+      gsap.from('.process-step', {
+        y: 30,
         opacity: 0,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
-          end: 'top 40%',
-          scrub: 1,
+          start: 'top 75%',
         },
       });
 
-      // Steps — scrub-based parallax reveal with stagger
-      gsap.utils.toArray<HTMLElement>('.process-step').forEach((step, i) => {
-        gsap.from(step, {
-          y: 60 + i * 20,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: step,
-            start: 'top 90%',
-            end: 'top 45%',
-            scrub: 1 + i * 0.2,
-          },
-        });
-      });
-
-      // Step numbers — individual parallax
-      gsap.utils.toArray<HTMLElement>('.step-number').forEach((num, i) => {
-        gsap.from(num, {
-          y: 40,
-          opacity: 0,
-          scrollTrigger: {
-            trigger: num,
-            start: 'top 90%',
-            end: 'top 50%',
-            scrub: 1 + i * 0.3,
-          },
-        });
-      });
-
-      // Vertical gold line — grow with scrub
       if (lineRef.current) {
-        gsap.to(lineRef.current, {
-          scaleY: 1,
+        gsap.from(lineRef.current, {
+          scaleX: 0,
+          transformOrigin: 'left center',
           ease: 'none',
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -77,63 +49,41 @@ export default function ProcessSection() {
       }
     }, sectionRef);
 
-    return () => {
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="process-title text-center">
-          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+    <section ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
+      <div className="max-w-4xl mx-auto px-8 md:px-16">
+        <div className="text-center mb-16 md:mb-24">
+          <p className="text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
             Notre Processus
           </p>
           <SplitText
             as="h2"
-            className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-16 md:mb-24"
-            scrub
+            className="font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white"
           >
             De la Vision à la Perfection
           </SplitText>
         </div>
 
-        <div className="relative">
-          {/* Vertical progress line */}
-          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-px">
-            <div
-              ref={lineRef}
-              className="w-full bg-bachir-gold origin-top"
-              style={{ transform: 'scaleY(0)', height: '100%' }}
-            />
-          </div>
+        {/* Horizontal line */}
+        <div ref={lineRef} className="hidden md:block h-px bg-white/[0.06] mb-16" />
 
-          <div className="space-y-16 md:space-y-24">
-            {STEPS.map((step, i) => (
-              <div
-                key={step.num}
-                className={`process-step relative flex items-start gap-6 md:gap-12 ${
-                  i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                }`}
-              >
-                {/* Step dot */}
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-bachir-gold mt-2 z-10" style={{ boxShadow: '0 0 12px rgba(184,134,11,0.4)' }} />
-
-                {/* Content */}
-                <div className={`ml-12 md:ml-0 md:w-[45%] ${i % 2 === 0 ? 'md:text-right md:pr-12' : 'md:text-left md:pl-12'}`}>
-                  <span className="step-number font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-white/10">
-                    {step.num}
-                  </span>
-                  <h3 className="font-[family-name:var(--font-syne)] text-2xl md:text-3xl font-semibold text-bachir-white mt-2 tracking-tight">
-                    {step.title}
-                  </h3>
-                  <p className="text-bachir-gray-500 text-sm mt-3 leading-relaxed">
-                    {step.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
+          {STEPS.map((step) => (
+            <div key={step.num} className="process-step group">
+              <span className="font-[family-name:var(--font-syne)] text-5xl md:text-6xl font-extralight text-white/[0.06] group-hover:text-bachir-gold/20 transition-colors duration-500">
+                {step.num}
+              </span>
+              <h3 className="font-[family-name:var(--font-syne)] text-lg md:text-xl font-semibold text-bachir-white mt-3 tracking-tight">
+                {step.title}
+              </h3>
+              <p className="text-white/30 text-sm mt-2 leading-relaxed">
+                {step.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

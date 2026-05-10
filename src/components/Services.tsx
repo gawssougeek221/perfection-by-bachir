@@ -5,73 +5,17 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from '@/components/ui/SplitText';
 import TiltCard from '@/components/ui/TiltCard';
-import ScrollVelocityText from '@/components/ScrollVelocityText';
-import {
-  Shield,
-  Palette,
-  Sparkles,
-  RefreshCw,
-  CircleDot,
-  Armchair,
-} from 'lucide-react';
+import { Shield, Palette, Sparkles, RefreshCw, CircleDot, Armchair } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
-  {
-    num: '01',
-    title: 'Carrosserie Premium',
-    subtitle: 'RESTAURATION',
-    icon: Shield,
-    description:
-      'Remise en état complète de la carrosserie. Réparation des impacts, traitement anti-rouille et finition showroom.',
-    image: '/service-carrosserie.jpg',
-  },
-  {
-    num: '02',
-    title: 'Peinture Showroom',
-    subtitle: 'APPLICATION',
-    icon: Palette,
-    description:
-      'Peinture professionnelle avec cabine dédiée. Finition premium, couleurs personnalisées et vernis céramique.',
-    image: '/service-peinture.jpg',
-  },
-  {
-    num: '03',
-    title: 'Polish & Detailing',
-    subtitle: 'PROTECTION',
-    icon: Sparkles,
-    description:
-      'Polish correction, traitement céramique et protection longue durée. Votre voiture brille comme au premier jour.',
-    image: '/service-detailing.jpg',
-  },
-  {
-    num: '04',
-    title: 'Restauration Complète',
-    subtitle: 'TRANSFORMATION',
-    icon: RefreshCw,
-    description:
-      "Transformation totale de votre véhicule. De la mécanique à l'esthétique, nous redonnons vie à chaque détail.",
-    image: '/service-restauration.jpg',
-  },
-  {
-    num: '05',
-    title: 'Jantes Premium',
-    subtitle: 'PERSONNALISATION',
-    icon: CircleDot,
-    description:
-      'Rénovation et personnalisation de jantes. Poudrage, chromage et finitions exclusives pour un look unique.',
-    image: '/service-jantes.jpg',
-  },
-  {
-    num: '06',
-    title: 'Cuir Intérieur',
-    subtitle: 'SELLERIE',
-    icon: Armchair,
-    description:
-      "Restauration et refonte de l'intérieur cuir. Sellerie sur mesure, surpiqûres dorées et finitions artisanales.",
-    image: '/service-cuir.jpg',
-  },
+  { num: '01', title: 'Carrosserie', subtitle: 'Restauration', icon: Shield, description: 'Remise en état complète. Réparation des impacts, traitement anti-rouille et finition showroom.' },
+  { num: '02', title: 'Peinture', subtitle: 'Application', icon: Palette, description: 'Cabine dédiée. Finition premium, couleurs personnalisées et vernis céramique.' },
+  { num: '03', title: 'Detailing', subtitle: 'Protection', icon: Sparkles, description: 'Polish correction, traitement céramique et protection longue durée.' },
+  { num: '04', title: 'Restauration', subtitle: 'Transformation', icon: RefreshCw, description: "Transformation totale. De la mécanique à l'esthétique." },
+  { num: '05', title: 'Jantes', subtitle: 'Personnalisation', icon: CircleDot, description: 'Rénovation et personnalisation. Poudrage, chromage et finitions exclusives.' },
+  { num: '06', title: 'Cuir', subtitle: 'Sellerie', icon: Armchair, description: "Sellerie sur mesure, surpiqûres dorées et finitions artisanales." },
 ];
 
 export default function Services() {
@@ -81,99 +25,56 @@ export default function Services() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Title — scrub-based parallax reveal
-      gsap.from('.services-title', {
-        y: 80,
+      gsap.from('.service-card', {
+        y: 40,
         opacity: 0,
-        filter: 'blur(8px)',
+        stagger: 0.08,
+        duration: 0.8,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
-          end: 'top 35%',
-          scrub: 1,
+          start: 'top 75%',
         },
-      });
-
-      // Service cards — scrub-based parallax reveal with staggered speeds
-      gsap.utils.toArray<HTMLElement>('.service-card').forEach((card, i) => {
-        gsap.from(card, {
-          y: 80 + i * 10,
-          opacity: 0,
-          filter: 'blur(4px)',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: `top ${80 - i * 4}%`,
-            end: `top ${30 - i * 3}%`,
-            scrub: 1 + i * 0.15,
-          },
-        });
       });
     }, sectionRef);
 
-    return () => {
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      id="services"
-      ref={sectionRef}
-      className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        <div className="services-title mb-16 md:mb-20">
-          <p className="text-white/40 text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
+    <section id="services" ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
+      <div className="max-w-7xl mx-auto px-8 md:px-16">
+        <div className="mb-16 md:mb-20">
+          <p className="text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
             Nos Services
           </p>
           <SplitText
             as="h2"
-            className="font-[family-name:var(--font-syne)] text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-bachir-white"
+            className="font-[family-name:var(--font-syne)] text-4xl md:text-6xl font-semibold tracking-tight text-bachir-white leading-[1.05]"
           >
             L&apos;Excellence dans Chaque Détail
           </SplitText>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {SERVICES.map((service) => {
             const Icon = service.icon;
             return (
-              <TiltCard key={service.num} tiltStrength={8} className="service-card">
-                <div className="group relative overflow-hidden border border-white/5 hover:border-white/15 transition-all duration-700 bg-bachir-black h-full">
-                  {/* Image */}
-                  <div className="relative h-48 md:h-56 overflow-hidden">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-bachir-black via-bachir-black/40 to-transparent" />
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <Icon className="w-12 h-12 text-white/20" />
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative p-6 md:p-8">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Icon className="w-4 h-4 text-white/30" />
-                      <span className="text-white/40 text-[10px] tracking-[0.3em] uppercase font-medium">
-                        {service.subtitle}
-                      </span>
-                    </div>
-                    <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mb-3 tracking-tight">
-                      <ScrollVelocityText baseSkew={3} baseScaleX={0.03}>
-                        {service.title}
-                      </ScrollVelocityText>
-                    </h3>
-                    <p className="text-bachir-gray-500 text-sm leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-                    <span className="text-white/60 text-xs tracking-[0.2em] uppercase font-medium group-hover:tracking-[0.3em] transition-all duration-300">
-                      En savoir plus →
+              <TiltCard key={service.num} tiltStrength={4} className="service-card">
+                <div className="group p-6 md:p-8 border border-white/[0.04] hover:border-white/[0.08] transition-all duration-500 bg-transparent hover:bg-white/[0.02]">
+                  <div className="flex items-center justify-between mb-6">
+                    <Icon className="w-4 h-4 text-white/15 group-hover:text-bachir-gold transition-colors duration-500" />
+                    <span className="text-white/10 text-[9px] tracking-[0.3em] uppercase font-medium">
+                      {service.subtitle}
                     </span>
                   </div>
+                  <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mb-3 tracking-tight">
+                    {service.title}
+                  </h3>
+                  <p className="text-white/30 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                  <div className="mt-6 h-px w-0 group-hover:w-full bg-bachir-gold/30 transition-all duration-700" />
                 </div>
               </TiltCard>
             );
