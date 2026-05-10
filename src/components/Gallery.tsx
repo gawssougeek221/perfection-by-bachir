@@ -10,27 +10,27 @@ const GALLERY_ITEMS = [
   {
     title: 'Mercedes AMG',
     subtitle: 'RESTAURATION COMPLÈTE',
-    gradient: 'from-amber-900/40 via-bachir-black to-bachir-black',
+    image: '/gallery-mercedes.png',
   },
   {
     title: 'Porsche 911',
     subtitle: 'DETAILING CÉRAMIQUE',
-    gradient: 'from-red-900/40 via-bachir-black to-bachir-black',
+    image: '/gallery-porsche.png',
   },
   {
     title: 'Range Rover',
     subtitle: 'PEINTURE SHOWROOM',
-    gradient: 'from-emerald-900/40 via-bachir-black to-bachir-black',
+    image: '/gallery-range-rover.png',
   },
   {
     title: 'BMW M5',
     subtitle: 'POLISH PREMIUM',
-    gradient: 'from-blue-900/40 via-bachir-black to-bachir-black',
+    image: '/gallery-bmw.png',
   },
   {
     title: 'Audi RS7',
     subtitle: 'CUIR INTÉRIEUR',
-    gradient: 'from-purple-900/40 via-bachir-black to-bachir-black',
+    image: '/gallery-audi.png',
   },
 ];
 
@@ -115,19 +115,15 @@ export default function Gallery() {
               perspective: '800px',
             }}
           >
-            {/* Background */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
+            {/* Car image */}
+            <img
+              src={item.image}
+              alt={item.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
 
-            {/* Placeholder visual */}
-            <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
-              <div className="text-center">
-                <div className="w-20 h-20 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:border-bachir-gold/30 group-hover:shadow-[0_0_20px_rgba(200,169,107,0.15)] transition-all duration-500">
-                  <span className="text-white/20 text-3xl group-hover:text-bachir-gold/40 transition-colors duration-500">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </div>
-            </div>
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-bachir-black/40 group-hover:bg-bachir-black/20 transition-colors duration-500" />
 
             {/* Shine sweep on hover */}
             <div
