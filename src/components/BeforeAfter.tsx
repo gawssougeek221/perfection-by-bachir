@@ -20,9 +20,9 @@ export default function BeforeAfter() {
 
     const ctx = gsap.context(() => {
       gsap.from(headerRef.current, {
-        y: 30,
+        y: 40,
         opacity: 0,
-        duration: 0.8,
+        duration: 0.9,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -32,7 +32,7 @@ export default function BeforeAfter() {
 
       gsap.from(containerRef.current, {
         clipPath: 'inset(100% 0 0 0)',
-        duration: 1,
+        duration: 1.2,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -51,10 +51,10 @@ export default function BeforeAfter() {
   };
 
   return (
-    <section id="before-after" ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
+    <section id="before-after" ref={sectionRef} className="bg-bachir-black py-32 md:py-48">
       <div className="max-w-6xl mx-auto px-8 md:px-16">
-        <div ref={headerRef} className="text-center mb-12">
-          <p className="text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
+        <div ref={headerRef} className="text-center mb-16">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-white/20 mb-6">
             Réalisations
           </p>
           <SplitText
@@ -80,29 +80,29 @@ export default function BeforeAfter() {
             {/* Before */}
             <div className="absolute inset-0">
               <img src="/before.jpg" alt="Avant" className="w-full h-full object-cover" />
-              <div className="absolute bottom-4 left-4">
-                <span className="text-white/40 text-[9px] tracking-[0.3em] uppercase">Avant</span>
+              <div className="absolute top-6 left-6">
+                <span className="text-[9px] tracking-[0.3em] uppercase text-white/30">Avant</span>
               </div>
             </div>
 
             {/* After */}
             <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}>
               <img src="/after.jpg" alt="Après" className="w-full h-full object-cover" />
-              <div className="absolute bottom-4 right-4">
-                <span className="text-bachir-gold/60 text-[9px] tracking-[0.3em] uppercase">Après</span>
+              <div className="absolute top-6 right-6">
+                <span className="text-[9px] tracking-[0.3em] uppercase text-white/30">Après</span>
               </div>
             </div>
 
-            {/* Slider handle */}
+            {/* Slider handle — thin line with small circle */}
             <div
               className="absolute top-0 bottom-0 z-20"
               style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
             >
               <div className="w-px h-full bg-white/20" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-white/20 bg-bachir-black/60 backdrop-blur-sm flex items-center justify-center">
-                <div className="flex gap-0.5">
-                  <div className="w-px h-3 bg-white/40" />
-                  <div className="w-px h-3 bg-white/40" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full border border-white/20 bg-[#0C0C0C]/60 backdrop-blur-sm flex items-center justify-center">
+                <div className="flex gap-1">
+                  <div className="w-px h-3 bg-white/30" />
+                  <div className="w-px h-3 bg-white/30" />
                 </div>
               </div>
             </div>

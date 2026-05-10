@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitText from '@/components/ui/SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,10 +16,9 @@ export default function TrustLogos() {
 
     const ctx = gsap.context(() => {
       gsap.from('.trust-logo', {
-        y: 20,
         opacity: 0,
-        stagger: 0.08,
-        duration: 0.8,
+        stagger: 0.06,
+        duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -33,18 +31,20 @@ export default function TrustLogos() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-bachir-black py-16 md:py-20">
+    <section ref={sectionRef} className="bg-bachir-black py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-8 md:px-16">
-        <div className="flex flex-wrap items-center justify-center gap-10 md:gap-16">
+        <div className="h-px bg-white/[0.04] mb-16 md:mb-24" />
+        <div className="flex flex-wrap items-center justify-center gap-10 md:gap-20">
           {logos.map((name) => (
             <span
               key={name}
-              className="trust-logo text-white/20 text-xs md:text-sm tracking-[0.3em] uppercase font-medium hover:text-white/40 transition-colors duration-500"
+              className="trust-logo text-white/[0.08] text-[11px] tracking-[0.3em] uppercase font-medium"
             >
               {name}
             </span>
           ))}
         </div>
+        <div className="h-px bg-white/[0.04] mt-16 md:mt-24" />
       </div>
     </section>
   );

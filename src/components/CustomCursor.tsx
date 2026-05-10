@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -29,7 +29,7 @@ export default function CustomCursor() {
     document.addEventListener('mouseleave', handleMouseLeave);
 
     const addListeners = () => {
-      const interactives = document.querySelectorAll('a, button, [data-magnetic], input, textarea, .cursor-hover');
+      const interactives = document.querySelectorAll('a, button, input, textarea, .cursor-hover');
       interactives.forEach((el) => {
         el.addEventListener('mouseenter', handleHoverIn);
         el.addEventListener('mouseleave', handleHoverOut);
@@ -49,12 +49,12 @@ export default function CustomCursor() {
     let raf: number;
     const animate = () => {
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${pos.current.x - 3}px, ${pos.current.y - 3}px)`;
+        dotRef.current.style.transform = `translate(${pos.current.x - 2}px, ${pos.current.y - 2}px)`;
       }
       ringPos.current.x += (pos.current.x - ringPos.current.x) * 0.1;
       ringPos.current.y += (pos.current.y - ringPos.current.y) * 0.1;
       if (ringRef.current) {
-        const size = isHovering ? 48 : 28;
+        const size = isHovering ? 40 : 24;
         ringRef.current.style.transform = `translate(${ringPos.current.x - size / 2}px, ${ringPos.current.y - size / 2}px)`;
         ringRef.current.style.width = `${size}px`;
         ringRef.current.style.height = `${size}px`;
@@ -80,31 +80,31 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Dot — small, clean */}
+      {/* Dot — small, subtle */}
       <div
         ref={dotRef}
         className="fixed top-0 left-0 z-[9998] pointer-events-none"
         style={{
-          width: 6,
-          height: 6,
+          width: 4,
+          height: 4,
           borderRadius: '50%',
-          backgroundColor: '#B8860B',
+          backgroundColor: 'rgba(255, 255, 255, 0.6)',
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 0.3s',
         }}
       />
-      {/* Ring — thin, subtle */}
+      {/* Ring — thin, white */}
       <div
         ref={ringRef}
         className="fixed top-0 left-0 z-[9997] pointer-events-none"
         style={{
-          width: 28,
-          height: 28,
+          width: 24,
+          height: 24,
           borderRadius: '50%',
-          border: '1px solid rgba(184, 134, 11, 0.25)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 0.3s, width 0.3s, height 0.3s, border-color 0.3s',
-          borderColor: isHovering ? 'rgba(184, 134, 11, 0.6)' : 'rgba(184, 134, 11, 0.25)',
+          borderColor: isHovering ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.15)',
         }}
       />
     </>

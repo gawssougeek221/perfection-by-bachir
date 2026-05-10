@@ -42,10 +42,10 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* BACHIR Design Tokens — Minimalist */
-  --color-bachir-black: #1A1A1A;
+  /* BACHIR Design Tokens — Premium Minimalist */
+  --color-bachir-black: #0C0C0C;
   --color-bachir-gold: #B8860B;
-  --color-bachir-white: #F0F0F0;
+  --color-bachir-white: #E8E8E8;
 
   /* HeroScrub Design Tokens */
   --color-color-overlay: var(--color-overlay);
@@ -85,45 +85,45 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #1A1A1A;
-  --foreground: #F0F0F0;
-  --card: #222222;
-  --card-foreground: #F0F0F0;
-  --popover: #222222;
-  --popover-foreground: #F0F0F0;
-  --primary: #1A1A1A;
-  --primary-foreground: #F0F0F0;
-  --secondary: #222222;
-  --secondary-foreground: #F0F0F0;
-  --muted: #222222;
-  --muted-foreground: #888888;
+  --background: #0C0C0C;
+  --foreground: #E8E8E8;
+  --card: #141414;
+  --card-foreground: #E8E8E8;
+  --popover: #141414;
+  --popover-foreground: #E8E8E8;
+  --primary: #0C0C0C;
+  --primary-foreground: #E8E8E8;
+  --secondary: #141414;
+  --secondary-foreground: #E8E8E8;
+  --muted: #141414;
+  --muted-foreground: rgba(232, 232, 232, 0.4);
   --accent: #B8860B;
-  --accent-foreground: #1A1A1A;
+  --accent-foreground: #0C0C0C;
   --destructive: #FF4444;
-  --border: rgba(255,255,255,0.08);
-  --input: rgba(255,255,255,0.08);
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
   --ring: #B8860B;
   --chart-1: #B8860B;
-  --chart-2: #1A1A1A;
-  --chart-3: #888888;
-  --chart-4: #CCCCCC;
+  --chart-2: #0C0C0C;
+  --chart-3: rgba(232, 232, 232, 0.4);
+  --chart-4: #E8E8E8;
   --chart-5: #333333;
-  --sidebar: #1A1A1A;
-  --sidebar-foreground: #F0F0F0;
+  --sidebar: #0C0C0C;
+  --sidebar-foreground: #E8E8E8;
   --sidebar-primary: #B8860B;
-  --sidebar-primary-foreground: #1A1A1A;
-  --sidebar-accent: #222222;
-  --sidebar-accent-foreground: #F0F0F0;
-  --sidebar-border: rgba(255,255,255,0.08);
+  --sidebar-primary-foreground: #0C0C0C;
+  --sidebar-accent: #141414;
+  --sidebar-accent-foreground: #E8E8E8;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
   --sidebar-ring: #B8860B;
 
   /* HeroScrub Extended Tokens */
-  --color-primary: #1A1A1A;
-  --color-secondary: #222222;
+  --color-primary: #0C0C0C;
+  --color-secondary: #141414;
   --color-accent: #B8860B;
-  --color-text: #f0f0f0;
-  --color-text-muted: rgba(240, 240, 240, 0.5);
-  --color-border: rgba(255, 255, 255, 0.04);
+  --color-text: #E8E8E8;
+  --color-text-muted: rgba(232, 232, 232, 0.4);
+  --color-border: rgba(255, 255, 255, 0.06);
   --color-overlay: rgba(0, 0, 0, 0.5);
   --font-primary: "Inter", sans-serif;
   --font-display: "Syne", sans-serif;
@@ -163,29 +163,23 @@
   }
   ::selection {
     background: #B8860B;
-    color: #1A1A1A;
+    color: #0C0C0C;
   }
 }
 
-@layer utilities {
-  .text-gold-glow {
-    text-shadow: 0 0 40px rgba(184, 134, 11, 0.3);
-  }
-}
-
-/* Custom scrollbar — ultra minimal */
+/* Custom scrollbar — ultra subtle */
 ::-webkit-scrollbar {
-  width: 3px;
+  width: 2px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(184, 134, 11, 0.3);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(184, 134, 11, 0.5);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Smooth scroll */

@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function AboutBachir() {
   const sectionRef = useRef<HTMLElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -16,7 +17,7 @@ export default function AboutBachir() {
     const ctx = gsap.context(() => {
       gsap.from('.about-img', {
         clipPath: 'inset(100% 0 0 0)',
-        duration: 1.2,
+        duration: 1.4,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -24,15 +25,29 @@ export default function AboutBachir() {
         },
       });
 
+      // Subtle parallax on image
+      if (imgRef.current) {
+        gsap.fromTo(imgRef.current, { y: -20 }, {
+          y: 20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        });
+      }
+
       gsap.from('.about-text', {
         y: 40,
         opacity: 0,
         stagger: 0.15,
-        duration: 0.8,
+        duration: 0.9,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 70%',
+          start: 'top 65%',
         },
       });
     }, sectionRef);
@@ -41,31 +56,35 @@ export default function AboutBachir() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
+    <section id="about" ref={sectionRef} className="bg-bachir-black py-32 md:py-48">
       <div className="max-w-7xl mx-auto px-8 md:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
           {/* Image */}
           <div className="about-img relative aspect-[3/4] overflow-hidden">
-            <img
-              src="/about-bachir.png"
-              alt="Bachir"
-              className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
-            />
+            <div ref={imgRef} className="absolute inset-0">
+              <img
+                src="/about-bachir.png"
+                alt="Bachir"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
 
           {/* Text */}
-          <div>
-            <p className="about-text text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
-              Notre Histoire
+          <div className="md:pl-8">
+            <p className="about-text text-[10px] tracking-[0.3em] uppercase text-white/20 mb-8">
+              À Propos
             </p>
             <SplitText
               as="h2"
-              className="about-text font-[family-name:var(--font-syne)] text-3xl md:text-5xl font-semibold tracking-tight text-bachir-white mb-10 leading-[1.1]"
+              className="about-text font-[family-name:var(--font-syne)] text-4xl md:text-6xl font-semibold tracking-tight text-bachir-white leading-[1.05]"
             >
               L&apos;Homme Derrière la Perfection
             </SplitText>
 
-            <div className="space-y-6 text-white/40 text-sm leading-relaxed">
+            <div className="about-text w-6 h-px bg-bachir-gold/40 mt-10 mb-8" />
+
+            <div className="space-y-6 text-white/35 text-[15px] leading-[1.8]">
               <p className="about-text">
                 Bachir a consacré plus de 12 ans à maîtriser l&apos;art de la rénovation automobile.
                 Formé dans les meilleurs ateliers européens, il a ramené à Dakar un savoir-faire
@@ -75,13 +94,6 @@ export default function AboutBachir() {
                 Chaque véhicule qui entre dans son atelier est traité avec la même exigence :
                 la perfection. Pas de compromis, pas de raccourci. Seul le résultat compte.
               </p>
-            </div>
-
-            <div className="about-text mt-10 flex items-center gap-4">
-              <div className="h-px w-8 bg-bachir-gold/40" />
-              <span className="text-white/25 text-[9px] tracking-[0.3em] uppercase font-medium">
-                12+ ans d&apos;excellence
-              </span>
             </div>
           </div>
         </div>

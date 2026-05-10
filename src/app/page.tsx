@@ -21,7 +21,7 @@ export default function Home() {
     <main className="relative">
       <Navbar />
 
-      {/* 01 — HERO: 171 frames cinematic scrub (unchanged) */}
+      {/* 01 — HERO: 171 frames cinematic scrub */}
       <HeroScrub
         frameCount={171}
         frameUrl={(i) => `/frames-webp/frame_${String(i + 1).padStart(4, '0')}.webp`}
@@ -31,7 +31,7 @@ export default function Home() {
         accentHex="#B8860B"
       />
 
-      {/* 02 — MORPH TEXT (unchanged) */}
+      {/* 02 — MORPH TEXT */}
       <MorphEffects />
 
       {/* 03 — TRUST LOGOS */}

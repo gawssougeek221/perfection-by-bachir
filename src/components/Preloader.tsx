@@ -47,15 +47,15 @@ export default function Preloader() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-bachir-black"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0C0C0C]"
     >
       <div className="text-center">
-        <p className="font-[family-name:var(--font-syne)] text-xs tracking-[0.5em] uppercase text-white/20 mb-8">
-          Perfection by Bachir
+        <p className="text-[10px] tracking-[0.5em] uppercase text-white/15 mb-10">
+          PERFECTION
         </p>
         <span
           ref={counterRef}
-          className="font-[family-name:var(--font-syne)] text-5xl font-light text-bachir-white tabular-nums"
+          className="text-6xl font-extralight text-white/60 tabular-nums font-[family-name:var(--font-syne)]"
         >
           0
         </span>

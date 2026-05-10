@@ -4,18 +4,16 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SplitText from '@/components/ui/SplitText';
-import TiltCard from '@/components/ui/TiltCard';
-import { Shield, Palette, Sparkles, RefreshCw, CircleDot, Armchair } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES = [
-  { num: '01', title: 'Carrosserie', subtitle: 'Restauration', icon: Shield, description: 'Remise en état complète. Réparation des impacts, traitement anti-rouille et finition showroom.' },
-  { num: '02', title: 'Peinture', subtitle: 'Application', icon: Palette, description: 'Cabine dédiée. Finition premium, couleurs personnalisées et vernis céramique.' },
-  { num: '03', title: 'Detailing', subtitle: 'Protection', icon: Sparkles, description: 'Polish correction, traitement céramique et protection longue durée.' },
-  { num: '04', title: 'Restauration', subtitle: 'Transformation', icon: RefreshCw, description: "Transformation totale. De la mécanique à l'esthétique." },
-  { num: '05', title: 'Jantes', subtitle: 'Personnalisation', icon: CircleDot, description: 'Rénovation et personnalisation. Poudrage, chromage et finitions exclusives.' },
-  { num: '06', title: 'Cuir', subtitle: 'Sellerie', icon: Armchair, description: "Sellerie sur mesure, surpiqûres dorées et finitions artisanales." },
+  { num: '01', title: 'Carrosserie', description: 'Remise en état complète. Réparation des impacts, traitement anti-rouille et finition showroom.' },
+  { num: '02', title: 'Peinture', description: 'Cabine dédiée. Finition premium, couleurs personnalisées et vernis céramique.' },
+  { num: '03', title: 'Detailing', description: 'Polish correction, traitement céramique et protection longue durée.' },
+  { num: '04', title: 'Restauration', description: "Transformation totale. De la mécanique à l'esthétique." },
+  { num: '05', title: 'Jantes', description: 'Rénovation et personnalisation. Poudrage, chromage et finitions exclusives.' },
+  { num: '06', title: 'Cuir', description: "Sellerie sur mesure, surpiqûres dorées et finitions artisanales." },
 ];
 
 export default function Services() {
@@ -26,10 +24,10 @@ export default function Services() {
 
     const ctx = gsap.context(() => {
       gsap.from('.service-card', {
-        y: 40,
+        y: 50,
         opacity: 0,
         stagger: 0.08,
-        duration: 0.8,
+        duration: 0.9,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -42,10 +40,10 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
+    <section id="services" ref={sectionRef} className="bg-bachir-black py-32 md:py-48">
       <div className="max-w-7xl mx-auto px-8 md:px-16">
-        <div className="mb-16 md:mb-20">
-          <p className="text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
+        <div className="mb-20 md:mb-28">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-white/20 mb-6">
             Nos Services
           </p>
           <SplitText
@@ -56,29 +54,19 @@ export default function Services() {
           </SplitText>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-          {SERVICES.map((service) => {
-            const Icon = service.icon;
-            return (
-              <TiltCard key={service.num} tiltStrength={4} className="service-card">
-                <div className="group p-6 md:p-8 border border-white/[0.04] hover:border-white/[0.08] transition-all duration-500 bg-transparent hover:bg-white/[0.02]">
-                  <div className="flex items-center justify-between mb-6">
-                    <Icon className="w-4 h-4 text-white/15 group-hover:text-bachir-gold transition-colors duration-500" />
-                    <span className="text-white/10 text-[9px] tracking-[0.3em] uppercase font-medium">
-                      {service.subtitle}
-                    </span>
-                  </div>
-                  <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mb-3 tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="text-white/30 text-sm leading-relaxed">
-                    {service.description}
-                  </p>
-                  <div className="mt-6 h-px w-0 group-hover:w-full bg-bachir-gold/30 transition-all duration-700" />
-                </div>
-              </TiltCard>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+          {SERVICES.map((service) => (
+            <div key={service.num} className="service-card group">
+              <span className="text-[10px] text-white/15 tracking-[0.2em]">{service.num}</span>
+              <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mt-4 tracking-tight group-hover:text-white transition-colors duration-500">
+                {service.title}
+              </h3>
+              <div className="w-0 group-hover:w-full h-px bg-white/10 transition-all duration-700 mt-4" />
+              <p className="text-white/30 text-sm leading-relaxed mt-4">
+                {service.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

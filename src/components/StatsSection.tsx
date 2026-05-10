@@ -22,12 +22,11 @@ export default function StatsSection() {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Staggered fade in
       gsap.from('.stat-item', {
-        y: 30,
+        y: 40,
         opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
+        stagger: 0.12,
+        duration: 1,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -35,11 +34,10 @@ export default function StatsSection() {
         },
       });
 
-      // Counter animation
       STATS.forEach((stat, i) => {
         gsap.to(objRefs.current[i], {
           val: stat.target,
-          duration: 2,
+          duration: 2.5,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -58,24 +56,24 @@ export default function StatsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-bachir-black py-20 md:py-28">
+    <section ref={sectionRef} className="bg-bachir-black py-32 md:py-48">
       <div className="max-w-6xl mx-auto px-8 md:px-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-16">
           {STATS.map((stat, i) => (
             <div key={stat.label} className="stat-item text-center">
               <div className="flex items-baseline justify-center gap-0.5">
                 <span
                   ref={(el) => { if (el) counterRefs.current[i] = el; }}
-                  className="font-[family-name:var(--font-syne)] text-4xl md:text-6xl font-light text-bachir-white tabular-nums"
+                  className="font-[family-name:var(--font-syne)] text-5xl md:text-7xl font-extralight text-bachir-white tabular-nums"
                 >
                   0
                 </span>
-                <span className="font-[family-name:var(--font-syne)] text-lg md:text-2xl font-light text-white/30">
+                <span className="text-lg text-white/20">
                   {stat.suffix}
                 </span>
               </div>
-              <div className="mt-2 h-px w-8 mx-auto bg-bachir-gold/30" />
-              <p className="mt-3 text-white/30 text-[10px] md:text-xs tracking-[0.15em] uppercase">
+              <div className="w-4 h-px bg-white/10 mx-auto mt-4" />
+              <p className="mt-3 text-[10px] tracking-[0.2em] uppercase text-white/20">
                 {stat.label}
               </p>
             </div>

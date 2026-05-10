@@ -16,17 +16,16 @@ const STEPS = [
 
 export default function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
       gsap.from('.process-step', {
-        y: 30,
+        y: 50,
         opacity: 0,
-        stagger: 0.1,
-        duration: 0.8,
+        stagger: 0.15,
+        duration: 0.9,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -34,29 +33,28 @@ export default function ProcessSection() {
         },
       });
 
-      if (lineRef.current) {
-        gsap.from(lineRef.current, {
-          scaleX: 0,
-          transformOrigin: 'left center',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-            end: 'bottom 40%',
-            scrub: 1,
-          },
-        });
-      }
+      // Number slides in from left
+      gsap.from('.process-num', {
+        x: -40,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 0.9,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+        },
+      });
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={sectionRef} className="bg-bachir-black py-20 md:py-36">
-      <div className="max-w-4xl mx-auto px-8 md:px-16">
-        <div className="text-center mb-16 md:mb-24">
-          <p className="text-white/25 text-[9px] tracking-[0.5em] uppercase font-medium mb-6">
+    <section ref={sectionRef} className="bg-bachir-black py-32 md:py-48">
+      <div className="max-w-3xl mx-auto px-8 md:px-16">
+        <div className="text-center mb-20 md:mb-32">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-white/20 mb-6">
             Notre Processus
           </p>
           <SplitText
@@ -67,21 +65,23 @@ export default function ProcessSection() {
           </SplitText>
         </div>
 
-        {/* Horizontal line */}
-        <div ref={lineRef} className="hidden md:block h-px bg-white/[0.06] mb-16" />
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
-          {STEPS.map((step) => (
-            <div key={step.num} className="process-step group">
-              <span className="font-[family-name:var(--font-syne)] text-5xl md:text-6xl font-extralight text-white/[0.06] group-hover:text-bachir-gold/20 transition-colors duration-500">
-                {step.num}
-              </span>
-              <h3 className="font-[family-name:var(--font-syne)] text-lg md:text-xl font-semibold text-bachir-white mt-3 tracking-tight">
-                {step.title}
-              </h3>
-              <p className="text-white/30 text-sm mt-2 leading-relaxed">
-                {step.desc}
-              </p>
+        <div className="flex flex-col">
+          {STEPS.map((step, i) => (
+            <div key={step.num}>
+              <div className="process-step">
+                <span className="process-num font-[family-name:var(--font-syne)] text-6xl md:text-8xl font-extralight text-white/[0.04]">
+                  {step.num}
+                </span>
+                <h3 className="font-[family-name:var(--font-syne)] text-xl md:text-2xl font-semibold text-bachir-white mt-4 tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="text-white/30 text-sm leading-relaxed mt-2">
+                  {step.desc}
+                </p>
+              </div>
+              {i < STEPS.length - 1 && (
+                <div className="h-px w-12 bg-white/[0.06] my-12 md:my-16" />
+              )}
             </div>
           ))}
         </div>
