@@ -56,27 +56,6 @@ export default function CTA() {
       ref={sectionRef}
       className="relative bg-bachir-white py-32 md:py-44 overflow-hidden"
     >
-      {/* Top gradient — smooth transition from Testimonials (dark) to this (light) */}
-      <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-bachir-black to-transparent z-20 pointer-events-none" />
-
-      {/* Depth blur layers */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-0 left-1/3 w-[50vw] h-[60vh] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(200,169,107,0.06) 0%, transparent 60%)',
-            filter: 'blur(80px)',
-          }}
-        />
-        <div
-          className="absolute bottom-0 right-1/4 w-[40vw] h-[40vh] rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(10,10,10,0.04) 0%, transparent 60%)',
-            filter: 'blur(60px)',
-          }}
-        />
-      </div>
-
       {/* Decorative vertical lines */}
       <div className="absolute inset-0 flex justify-between px-12 md:px-24 opacity-10">
         {[...Array(5)].map((_, i) => (

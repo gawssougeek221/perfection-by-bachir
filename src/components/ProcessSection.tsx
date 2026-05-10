@@ -83,14 +83,6 @@ export default function ProcessSection() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[40vh] rounded-full" style={{
-          background: 'radial-gradient(ellipse, rgba(200,169,107,0.03) 0%, transparent 60%)',
-          filter: 'blur(80px)',
-        }} />
-      </div>
-
       <div className="max-w-5xl mx-auto px-6 md:px-12 relative z-10">
         <div className="process-title text-center">
           <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">

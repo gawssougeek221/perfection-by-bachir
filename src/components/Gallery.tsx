@@ -118,8 +118,6 @@ export default function Gallery() {
             {/* Background */}
             <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
 
-
-
             {/* Placeholder visual */}
             <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
               <div className="text-center">
@@ -154,10 +152,7 @@ export default function Gallery() {
               </h3>
             </div>
 
-            {/* Vignette — subtle depth */}
-            <div className="absolute inset-0 pointer-events-none opacity-40 group-hover:opacity-20 transition-opacity duration-500" style={{
-              background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%)',
-            }} />
+
           </div>
         ))}
       </div>

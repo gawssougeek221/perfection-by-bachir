@@ -75,25 +75,11 @@ export default function StatsSection() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-white py-24 md:py-36 overflow-hidden">
-      {/* Depth blur orbs in background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[50vh] rounded-full" style={{
-          background: 'radial-gradient(ellipse, rgba(200,169,107,0.06) 0%, transparent 60%)',
-          filter: 'blur(60px)',
-        }} />
-      </div>
-
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
           {STATS.map((stat, i) => (
             <div key={stat.label} className="stat-card text-center relative">
-              {/* Depth shadow behind stat */}
-              <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{
-                boxShadow: '0 8px 40px rgba(200,169,107,0.08)',
-                backdropFilter: 'blur(10px)',
-                background: 'rgba(200,169,107,0.02)',
-              }} />
-              <div className="relative z-10 py-4">
+              <div className="py-4">
                 <div className="flex items-baseline justify-center gap-1">
                   <span
                     ref={(el) => {
@@ -116,8 +102,7 @@ export default function StatsSection() {
         </div>
       </div>
 
-      {/* Bottom gradient — smooth transition to AboutBachir (dark) */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bachir-black to-transparent z-20 pointer-events-none" />
+
     </section>
   );
 }

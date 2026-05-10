@@ -68,18 +68,6 @@ export default function Testimonials() {
 
   return (
     <section ref={sectionRef} className="relative bg-bachir-black py-24 md:py-36 overflow-hidden">
-      {/* Background decorative element */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 right-0 w-[50vw] h-[50vh] rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(200,169,107,0.03) 0%, transparent 60%)',
-          filter: 'blur(80px)',
-        }} />
-        <div className="absolute bottom-1/4 left-0 w-[30vw] h-[30vh] rounded-full" style={{
-          background: 'radial-gradient(circle, rgba(200,169,107,0.02) 0%, transparent 60%)',
-          filter: 'blur(60px)',
-        }} />
-      </div>
-
       <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
         <div className="testimonials-title text-center mb-16">
           <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">

@@ -119,24 +119,6 @@ export default function Services() {
       ref={sectionRef}
       className="relative bg-bachir-black py-24 md:py-36 overflow-hidden"
     >
-      {/* Depth blur background orbs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(200,169,107,0.05) 0%, transparent 70%)',
-            filter: 'blur(80px)',
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(200,169,107,0.04) 0%, transparent 70%)',
-            filter: 'blur(100px)',
-          }}
-        />
-      </div>
-
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
         <div className="services-title mb-16 md:mb-20">
           <p className="text-bachir-gold text-[10px] tracking-[0.5em] uppercase font-medium mb-4">
@@ -165,11 +147,7 @@ export default function Services() {
                     alt={service.title}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
-                  {/* Depth blur on image hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{
-                    backdropFilter: 'blur(0px)',
-                    background: 'linear-gradient(to bottom, transparent 50%, rgba(10,10,10,0.8) 100%)',
-                  }} />
+
                   <div className="absolute inset-0 bg-gradient-to-t from-bachir-black via-bachir-black/40 to-transparent" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <Icon className="w-12 h-12 text-bachir-gold/30 drop-shadow-[0_0_20px_rgba(200,169,107,0.3)]" />
@@ -195,10 +173,7 @@ export default function Services() {
                   </span>
                 </div>
 
-                {/* Depth shadow on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{
-                  boxShadow: 'inset 0 0 60px rgba(200,169,107,0.05), 0 8px 40px rgba(0,0,0,0.4)',
-                }} />
+
               </div>
             );
           })}

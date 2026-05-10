@@ -73,29 +73,6 @@ export default function MorphEffects() {
       ref={sectionRef}
       className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-bachir-black"
     >
-      {/* Morphing blobs background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(5)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: `${200 + i * 80}px`,
-              height: `${200 + i * 80}px`,
-              left: `${15 + i * 18}%`,
-              top: `${20 + (i % 3) * 20}%`,
-              background: `radial-gradient(circle, rgba(200,169,107,0.08) 0%, transparent 70%)`,
-              filter: 'blur(40px)',
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Vignette — depth effect */}
-      <div className="absolute inset-0 z-[3] pointer-events-none" style={{
-        background: 'radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.4) 100%)',
-      }} />
-
       {/* Words */}
       <div className="relative z-10 flex flex-col items-center">
         {WORDS.map((word, i) => (
